@@ -11,12 +11,6 @@ GPIO.setup(3, GPIO.IN)
 GPIO.setup(14, GPIO.OUT)
 GPIO.setup(15, GPIO.OUT)
 
-# client = requests.session()
-
-# Retrieve the CSRF token first
-# client.get(url)  # sets cookie
-# csrftoken = client.cookies['csrftoken']
-
 # dead loop
 while True:
 	i = GPIO.input(3)
@@ -24,18 +18,14 @@ while True:
 		print 'empty', i
 		GPIO.output(14, True)
 		GPIO.output(15, False)
-		r = requests.post(url, data={'geo': 'geolocation', 
-									'status': EMPTY, 
-									'pk': 2,})
+		r = requests.post(url, data={'geo': 'geolocation', 'status': EMPTY, 'pk': 2,})
 		print r.status_code
 		time.sleep(0.1)
 	else:
 		print 'full', i
 		GPIO.output(14, False)
 		GPIO.output(15, True)
-		r = requests.post(url, data={'geo': 'geolocation', 
-									'status': FULL, 
-									'pk': 2,})
+		r = requests.post(url, data={'geo': 'geolocation', 'status': FULL, 'pk': 2,})
 		print r.status_code
 		time.sleep(0.1)
 GPIO.cleanup()
