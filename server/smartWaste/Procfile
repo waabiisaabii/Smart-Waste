@@ -1,0 +1,1 @@
+web: gunicorn smartWaste.wsgi --log-file -
