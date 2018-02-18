@@ -1,4 +1,4 @@
-# Smart-Waste-Mobile-and-IoT
+# Smart-Waste
 ## Usage:
 + Sending data from bin to server (using `HTTP GET` request):
     + [https://peaceful-island-64716.herokuapp.com/iot/sensor?geo=test&status=1&pk=2](https://peaceful-island-64716.herokuapp.com/iot/sensor?geo=test&status=1&pk=2)
