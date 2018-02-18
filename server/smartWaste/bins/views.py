@@ -8,13 +8,15 @@ from django.http import HttpResponse, Http404
 from bins.models import *
 # from bins.forms import *
 from django.core import serializers
+from django.views.decorators.csrf import csrf_exempt
 
+@csrf_exempt
 def getSensorInfo(requests):
-	if (requests.method != 'GET'):
+	if (requests.method != 'POST'):
 		raise Http404
-	geoLocation = requests.GET.get('geo')
-	binStatus = requests.GET.get('status')
-	pk = requests.GET.get('pk')
+	geoLocation = requests.POST.get('geo')
+	binStatus = requests.POST.get('status')
+	pk = requests.POST.get('pk')
 
 	newBin = Bin.objects.get(binID=pk)
 	newBin.binStatus = binStatus
