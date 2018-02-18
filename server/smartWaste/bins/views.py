@@ -12,13 +12,12 @@ from django.core import serializers
 def getSensorInfo(requests):
 	if (requests.method != 'GET'):
 		raise Http404
-	geoLocation = requests.get('geo')
-	binStatus = requests.get('status')
-	pk = requests.get('pk')
+	geoLocation = requests.GET.get('geo')
+	binStatus = requests.GET.get('status')
+	pk = requests.GET.get('pk')
 
-	newBin = Bin.objects.create(binID=pk,
-		geoLocation=geoLocation,
-		binStatus=binStatus)
+	newBin = Bin.objects.get(binID=pk)
+	newBin.binStatus = binStatus
 	newBin.save()
 	return HttpResponse('well', content_type='text/plain')
 
