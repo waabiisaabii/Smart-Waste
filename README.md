@@ -24,3 +24,11 @@
     }
 ]
 ```
+
+### To-do List
++ Django Deployment checklist `python manage.py check --deploy`
++ Error handling:
+    + Form validation for bin status
++ Representation of geographic locations. (currently a `Stirng`)
+
+
