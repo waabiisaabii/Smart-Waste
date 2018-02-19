@@ -2,6 +2,7 @@
 ## Usage:
 + Sending data from bin to server ~~(using `HTTP GET` request):~~ (using `HTTP POST` request)
     + ~~[https://peaceful-island-64716.herokuapp.com/iot/sensor?geo=test&status=1&pk=2](https://peaceful-island-64716.herokuapp.com/iot/sensor?geo=test&status=1&pk=2)~~
+    
     +[https://peaceful-island-64716.herokuapp.com/iot/sensor](https://peaceful-island-64716.herokuapp.com/iot/sensor)
     + params:
         + `pk` is an integer representing the ID of the bin.
