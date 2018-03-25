@@ -17,10 +17,16 @@ def getSensorInfo(requests):
 	geoLocation = requests.POST.get('geo')
 	binStatus = requests.POST.get('status')
 	pk = requests.POST.get('pk')
+	requestUrgent = requests.POST.get('request')
+	lastPickUpTime = requests.POST.get('lastPickUpTime')
 
-	newBin = Bin.objects.get(binID=pk)
+
+	newBin, created = Bin.objects.get_or_create(binID=pk,)
 	newBin.binStatus = binStatus
+	newBin.requestUrgent = requestUrgent
+	newBin.lastPickUpTime = lastPickUpTime
 	newBin.save()
+
 	return HttpResponse('well', content_type='text/plain')
 
 def sendBackToPhone(requests):
