@@ -22,6 +22,7 @@ def getSensorInfo(requests):
 
 
 	newBin, created = Bin.objects.get_or_create(binID=pk,)
+	newBin.geoLocation = geoLocation
 	newBin.binStatus = binStatus
 	newBin.requestUrgent = requestUrgent
 	newBin.lastPickUpTime = lastPickUpTime
