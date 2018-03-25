@@ -41,6 +41,7 @@
     - `1`: `false`
 - `lastPickUpTime`:
     + time in the format: `11:09PM on March 25, 2018`
+    + default: `None`
 
 
 ### To-do List
