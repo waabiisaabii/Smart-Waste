@@ -13,6 +13,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.data.kml.KmlLayer;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,6 +25,25 @@ import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
+
+    /**
+     * Getter for map.
+     *
+     * @return map
+     */
+    public GoogleMap getmMap() {
+        return mMap;
+    }
+
+    private void createKMLLayer() {
+        try {
+            KmlLayer kmlLayer = new KmlLayer(getmMap(), R.raw.kml, getApplicationContext());
+            kmlLayer.addLayerToMap();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
     private GoogleMap mMap;
 
@@ -50,6 +70,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+        // Add kml layer to the map
+        createKMLLayer();
 
         // Add a marker in Sydney and move the camera
         LatLng Shadyside = new LatLng(40.4556, -79.9277);
