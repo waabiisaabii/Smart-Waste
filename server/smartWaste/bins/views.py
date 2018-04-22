@@ -13,14 +13,17 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 @csrf_exempt
-def getSensorInfo(requests):
-    if (requests.method != 'POST'):
-        raise Http404
+def getSensorInfo(request):
+    if (request.method != 'POST'):
+        # raise Http404
+        return HttpResponse('Not a POST method', content_type='text/plain')
 
-    form = BinStatusForm(data=requests.POST)
-
+    form = BinStatusForm(data=request.POST)
+    print 'valid???: ', form.is_valid()
     if not form.is_valid():
-        raise Http404
+        # raise Http404
+        return HttpResponse('#### Invalid data', content_type='text/plain')
+
 
     # geoLocation = requests.POST.get('geo')
     # binStatus = requests.POST.get('status')
@@ -44,13 +47,13 @@ def getSensorInfo(requests):
     return HttpResponse('well', content_type='text/plain')
 
 
-def sendBackToPhone(requests):
+def sendBackToPhone(request):
     allBins = Bin.objects.all()
     response_text = serializers.serialize("json", allBins)
     return HttpResponse(response_text, content_type="application/json")
 
-def getDamageReportItem(requests):
-    if (requests.method != 'POST'):
+def getDamageReportItem(request):
+    if (request.method != 'POST'):
         raise Http404
 
     form = ReportDamageForm(data=requests.POST)
@@ -69,7 +72,7 @@ def getDamageReportItem(requests):
     newReport.save()
     return HttpResponse('Damage report saved', content_type='text/plain')
 
-def returnAllDamageReports(requests):
+def returnAllDamageReports(request):
     allReports = DamageReportModel.objects.all()
     response_text = serializers.serialize("json", allReports)
     return HttpResponse(response_text, content_type="application/json")
