@@ -1,14 +1,22 @@
 package com.yujingya.googlemaps;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Yachen on 4/22/18.
  */
 
-//TODO
 public class ReportItem {
-    private final int binId;
-    private final String geoLocation;
-    private final String description;
+    private static final String BIN_ID_NAME = "binID";
+    private static final String GEO_LOCATION_NAME = "geoLocation";
+    private static final String DESCRIPTION = "description";
+
+    public Map<String, String> getItems() {
+        return new HashMap<>(items);
+    }
+
+    private Map<String, String> items;
 
     /**
      * Constructor.
@@ -29,35 +37,9 @@ public class ReportItem {
             throw new IllegalArgumentException("You must provide detailed description of that bin.");
         }
 
-        this.binId = binId;
-        this.geoLocation = geoLocation;
-        this.description = description;
-    }
-
-    /**
-     * Getter for binId.
-     *
-     * @return binId
-     */
-    public int getBinId() {
-        return binId;
-    }
-
-    /**
-     * Getter for geo location.
-     *
-     * @return geoLocation
-     */
-    public String getGeoLocation() {
-        return geoLocation;
-    }
-
-    /**
-     * Getter for description.
-     *
-     * @return description
-     */
-    public String getDescription() {
-        return description;
+        items = new HashMap<>();
+        items.put(BIN_ID_NAME, String.valueOf(binId));
+        items.put(GEO_LOCATION_NAME, geoLocation);
+        items.put(DESCRIPTION, description);
     }
 }
