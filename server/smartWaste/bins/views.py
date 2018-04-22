@@ -11,38 +11,65 @@ from bins.forms import *
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 
+
 @csrf_exempt
 def getSensorInfo(requests):
-	if (requests.method != 'POST'):
-		raise Http404
+    if (requests.method != 'POST'):
+        raise Http404
 
-	form = BinStatusForm(data=request.POST)
-	
-	if not form.is_valid():
-		raise Http404
+    form = BinStatusForm(data=requests.POST)
 
-	# geoLocation = requests.POST.get('geo')
-	# binStatus = requests.POST.get('status')
-	# pk = requests.POST.get('pk')
-	# requestUrgent = requests.POST.get('request')
-	# lastPickUpTime = requests.POST.get('lastPickUpTime')
+    if not form.is_valid():
+        raise Http404
 
-	geoLocation = form.cleaned_data.get('geo')
-	binStatus = form.cleaned_data.get('status')
-	pk = form.cleaned_data.get('pk')
-	requestUrgent = form.cleaned_data.get('request')
-	lastPickUpTime = form.cleaned_data.get('lastPickUpTime')
+    # geoLocation = requests.POST.get('geo')
+    # binStatus = requests.POST.get('status')
+    # pk = requests.POST.get('pk')
+    # requestUrgent = requests.POST.get('request')
+    # lastPickUpTime = requests.POST.get('lastPickUpTime')
 
-	newBin, created = Bin.objects.get_or_create(binID=pk,)
-	newBin.geoLocation = geoLocation
-	newBin.binStatus = binStatus
-	newBin.requestUrgent = requestUrgent
-	newBin.lastPickUpTime = lastPickUpTime
-	newBin.save()
+    geoLocation = form.cleaned_data.get('geo')
+    binStatus = form.cleaned_data.get('status')
+    pk = form.cleaned_data.get('pk')
+    requestUrgent = form.cleaned_data.get('request')
+    lastPickUpTime = form.cleaned_data.get('lastPickUpTime')
 
-	return HttpResponse('well', content_type='text/plain')
+    newBin, created = Bin.objects.get_or_create(binID=pk, )
+    newBin.geoLocation = geoLocation
+    newBin.binStatus = binStatus
+    newBin.requestUrgent = requestUrgent
+    newBin.lastPickUpTime = lastPickUpTime
+    newBin.save()
+
+    return HttpResponse('well', content_type='text/plain')
+
 
 def sendBackToPhone(requests):
-	allBins = Bin.objects.all()
-	response_text = serializers.serialize("json", allBins)
-	return HttpResponse(response_text, content_type="application/json")
+    allBins = Bin.objects.all()
+    response_text = serializers.serialize("json", allBins)
+    return HttpResponse(response_text, content_type="application/json")
+
+def getDamageReportItem(requests):
+    if (requests.method != 'POST'):
+        raise Http404
+
+    form = ReportDamageForm(data=requests.POST)
+
+    if not form.is_valid():
+        raise Http404
+
+    geoLocation = form.cleaned_data.get('geoLocation')
+    description = form.cleaned_data.get('description')
+    binID = form.cleaned_data.get('binID')
+
+    newReport = DamageReportModel.objects.create(binID=binID,
+                                     geoLocation=geoLocation,
+                                     description=description,
+                                     status=0)
+    newReport.save()
+    return HttpResponse('Damage report saved', content_type='text/plain')
+
+def returnAllDamageReports(requests):
+    allReports = DamageReportModel.objects.all()
+    response_text = serializers.serialize("json", allReports)
+    return HttpResponse(response_text, content_type="application/json")
