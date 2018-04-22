@@ -43,11 +43,3 @@
     + time in the format: `11:09PM on March 25, 2018`
     + default: `None`
 
-
-### To-do List
-+ Django Deployment checklist `python manage.py check --deploy`
-+ Error handling:
-    + Form validation for bin status
-+ Representation of geographic locations. (currently a `Stirng`)
-
-
