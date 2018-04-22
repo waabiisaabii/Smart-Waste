@@ -4,6 +4,8 @@ url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
 
+[requires]
+python_version = "2.7"
 
 [dev-packages]
 
@@ -12,5 +14,5 @@ name = "pypi"
 [packages]
 
 django = "==1.11.7"
-"gunicorn-19.7.1" = "*"
+"gunicorn" = "*"
 whitenoise = "*"

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<!-- created by GmapGIS.com -->
+<Document><name>MynameKML file polygon </name><description>Some descrition</description><Style id="polyStyID_0"><LineStyle><color>FF0000FF</color><width>2</width></LineStyle><PolyStyle><color>4D0000FF</color></PolyStyle> </Style><Style id="polyStyID_1"><LineStyle><color>FF00CC99</color><width>2</width></LineStyle><PolyStyle><color>4D00CC99</color></PolyStyle> </Style><Placemark><name>Polygon 1</name><description><![CDATA[]]></description><styleUrl>#polyStyID_0</styleUrl><Polygon><tessellate>1</tessellate><altitudeMode>clampToGround</altitudeMode><outerBoundaryIs><LinearRing><coordinates>
+-79.94658,40.44451,0.0
+-79.94296,40.44466,0.0
+-79.93885,40.44383,0.0
+-79.93762,40.44262,0.0
+-79.94026,40.44154,0.0
+-79.9415,40.44175,0.0
+-79.94206,40.44045,0.0
+-79.94704,40.44158,0.0
+-79.94809,40.44086,0.0
+-79.94926,40.44139,0.0
+</coordinates></LinearRing></outerBoundaryIs></Polygon></Placemark><Placemark><name>Polygon 2</name><description><![CDATA[]]></description><styleUrl>#polyStyID_1</styleUrl><Polygon><tessellate>1</tessellate><altitudeMode>clampToGround</altitudeMode><outerBoundaryIs><LinearRing><coordinates>
+-79.94678,40.44454,0.0
+-79.94869,40.44443,0.0
+-79.95347,40.44326,0.0
+-79.95638,40.44576,0.0
+-79.95077,40.44963,0.0
+-79.95201,40.45193,0.0
+-79.94455,40.45403,0.0
+-79.94285,40.45103,0.0
+-79.94236,40.44629,0.0
+-79.94287,40.44482,0.0
+</coordinates></LinearRing></outerBoundaryIs></Polygon></Placemark></Document></kml>
