@@ -6,6 +6,7 @@ from django.shortcuts import render
 # Create your views here.
 from django.http import HttpResponse, Http404
 from bins.models import *
+from bins.forms import *
 # from bins.forms import *
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
@@ -14,12 +15,23 @@ from django.views.decorators.csrf import csrf_exempt
 def getSensorInfo(requests):
 	if (requests.method != 'POST'):
 		raise Http404
-	geoLocation = requests.POST.get('geo')
-	binStatus = requests.POST.get('status')
-	pk = requests.POST.get('pk')
-	requestUrgent = requests.POST.get('request')
-	lastPickUpTime = requests.POST.get('lastPickUpTime')
 
+	form = BinStatusForm(data=request.POST)
+	
+	if not form.is_valid():
+		raise Http404
+
+	# geoLocation = requests.POST.get('geo')
+	# binStatus = requests.POST.get('status')
+	# pk = requests.POST.get('pk')
+	# requestUrgent = requests.POST.get('request')
+	# lastPickUpTime = requests.POST.get('lastPickUpTime')
+
+	geoLocation = form.cleaned_data.get('geo')
+	binStatus = form.cleaned_data.get('status')
+	pk = form.cleaned_data.get('pk')
+	requestUrgent = form.cleaned_data.get('request')
+	lastPickUpTime = form.cleaned_data.get('lastPickUpTime')
 
 	newBin, created = Bin.objects.get_or_create(binID=pk,)
 	newBin.geoLocation = geoLocation
