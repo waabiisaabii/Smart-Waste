@@ -26,6 +26,8 @@ import java.util.List;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
 
+    private GoogleMap mMap;
+
     /**
      * Getter for map.
      *
@@ -44,8 +46,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
     }
-
-    private GoogleMap mMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,20 +82,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng EastHills = new LatLng(40.454876, -79.875883);
 
         Marker myShady = mMap.addMarker(new MarkerOptions()
-                                            .position(Shadyside)
-                                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.greenl)));
+                .position(Shadyside)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.greenl)));
         myShady.setTag("location: Shadyside");
         mMap.moveCamera(CameraUpdateFactory.newLatLng(Shadyside));
 
         Marker myAllegheny = mMap.addMarker(new MarkerOptions()
-                                                .position(Allegheny)
-                                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.redl)));
+                .position(Allegheny)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.redl)));
         myAllegheny.setTag("location: Allegheny West");
         mMap.moveCamera(CameraUpdateFactory.newLatLng(Allegheny));
 
         Marker myAllentown = mMap.addMarker(new MarkerOptions()
-                                                .position(Allentown)
-                                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.redl)));
+                .position(Allentown)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.redl)));
         myAllentown.setTag("location: Allentown");
         mMap.moveCamera(CameraUpdateFactory.newLatLng(Allentown));
 
@@ -110,7 +110,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.redl)));
         myEastHills.setTag("location: East Hills");
         mMap.moveCamera(CameraUpdateFactory.newLatLng(EastHills));
-
 
 
         mMap.setOnMarkerClickListener(this);
