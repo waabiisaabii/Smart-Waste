@@ -1,7 +1,9 @@
 package com.yujingya.googlemaps;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -147,7 +149,6 @@ public class MapsActivity extends FragmentActivity implements
         String itemKey = selectedMarker.getTag().toString();
 
         intent.putExtra(LAT_LON, itemMap.get(itemKey));
-//        startActivity(intent);
         startActivityForResult(intent, RESULT_FIRST_USER);
     }
 
@@ -162,11 +163,19 @@ public class MapsActivity extends FragmentActivity implements
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == 1) {
+            String popUpMsg;
             if (resultCode == RESULT_OK) {
                 System.out.println("####result ok!!!!");
+                popUpMsg = "Report submitted.";
+
             } else {
                 System.out.println("####result bad");
+                popUpMsg = "Failed to submit report.";
             }
+
+            Snackbar.make(findViewById(R.id.slidingLayout), popUpMsg,
+                    Snackbar.LENGTH_LONG)
+                    .show();
         }
     }
 }

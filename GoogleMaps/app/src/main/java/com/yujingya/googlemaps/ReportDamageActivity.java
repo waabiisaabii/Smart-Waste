@@ -74,6 +74,7 @@ public class ReportDamageActivity extends AppCompatActivity {
 
     @Override
     public void finish() {
+        // https://stackoverflow.com/questions/2679250/setresult-does-not-work-when-back-button-pressed
         Intent data = new Intent();
         if (responseCode == HttpURLConnection.HTTP_OK) {
             setResult(RESULT_OK, data);
