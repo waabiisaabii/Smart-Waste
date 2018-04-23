@@ -33,5 +33,4 @@ dependencies {
         exclude module: 'junit'
     }
     implementation 'com.android.support:design:26.1.0'
-
 }

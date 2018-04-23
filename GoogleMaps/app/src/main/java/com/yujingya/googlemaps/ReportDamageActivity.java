@@ -13,6 +13,11 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * Created by Yachen on 4/23/18.
+ */
+
+
 public class ReportDamageActivity extends AppCompatActivity {
 
     private EditText descriptionEditText;
