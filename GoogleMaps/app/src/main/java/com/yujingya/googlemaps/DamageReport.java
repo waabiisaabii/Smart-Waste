@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Map;
 
 /**
@@ -30,14 +31,22 @@ public class DamageReport extends AsyncTask<ReportItem, Void, Integer> {
         httpURLConnection.setRequestMethod(HTTP_POST);
 
         Map<String, String> reportItemMap = givenReportItem.getItems();
-        for (String key : reportItemMap.keySet()) {
-            httpURLConnection.setRequestProperty(key, reportItemMap.get(key));
+        StringBuilder postData = new StringBuilder();
+        for (Map.Entry<String, String> param : reportItemMap.entrySet()) {
+            if (postData.length() != 0) postData.append('&');
+            postData.append(URLEncoder.encode(param.getKey(), "UTF-8"));
+            postData.append('=');
+            postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
         }
+        byte[] postDataBytes = postData.toString().getBytes("UTF-8");
+
         httpURLConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        httpURLConnection.setRequestProperty("charset", "utf-8");
 
 
         httpURLConnection.setDoOutput(true);
         OutputStream os = httpURLConnection.getOutputStream();
+        os.write(postDataBytes);
         os.flush();
         os.close();
 

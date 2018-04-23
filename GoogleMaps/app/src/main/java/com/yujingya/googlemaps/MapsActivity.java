@@ -25,7 +25,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class MapsActivity extends FragmentActivity implements
@@ -34,8 +36,10 @@ public class MapsActivity extends FragmentActivity implements
         GoogleMap.OnMapClickListener {
 
 
-    private static final String serverURL = "https://peaceful-island-64716.herokuapp.com/iot/";
-    private static final String serverActionGetBinStatus = serverURL + "returnJSON";
+    public static final String serverURL = "https://peaceful-island-64716.herokuapp.com/iot/";
+    public static final String serverActionGetBinStatus = serverURL + "returnJSON";
+    public static final String serverActionDamageReport = serverURL + "reportDamage";
+    public static final String serverActionGetAllDamageReport = serverURL + "getAllDamageReports";
     private GoogleMap mMap;
     private Button damageReportButton;
     private Marker selectedMarker;
@@ -85,19 +89,24 @@ public class MapsActivity extends FragmentActivity implements
         createKMLLayer();
 
         // Display trash bins
+        itemMap = new HashMap<>();
         displayTrashBins(serverActionGetBinStatus);
 
         mMap.setOnMarkerClickListener(this);
         mMap.setOnMapClickListener(this);
 
         damageReportButton = findViewById(R.id.damageReportButton);
+
     }
+
+    private Map<String, BinStatus.Item> itemMap;
 
     private void displayTrashBins(String url) {
         try {
 
             List<BinStatus.Item> items = new BinStatus(url).execute().get();
             for (BinStatus.Item item : items) {
+                itemMap.put(item.toString(), item);
                 LatLng coord = new LatLng(item.getLat(), item.getLon());
                 System.out.println(coord);
                 int binColor = item.getBinStatus() == 0 ? R.drawable.greenl : R.drawable.redl;
@@ -136,8 +145,9 @@ public class MapsActivity extends FragmentActivity implements
         System.out.println(selectedMarker.getTag());
 
         Intent intent = new Intent(this, ReportDamageActivity.class);
-        String message = selectedMarker.getTag().toString();
-        intent.putExtra(LAT_LON, message);
+        String itemKey = selectedMarker.getTag().toString();
+
+        intent.putExtra(LAT_LON, itemMap.get(itemKey));
         startActivity(intent);
     }
 

@@ -26,7 +26,7 @@ public class ReportItem {
      *                    format: "([+-]?\\d+\\.?\\d+)\\s*,\\s*([+-]?\\d+\\.?\\d+)"
      * @param description given description
      */
-    public ReportItem(int binId, String geoLocation, String description) {
+    public ReportItem(long binId, String geoLocation, String description) {
         if (binId < 0) {
             throw new IllegalArgumentException("Illegal bin ID");
         }

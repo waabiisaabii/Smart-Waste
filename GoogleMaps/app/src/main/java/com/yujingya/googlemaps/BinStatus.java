@@ -1,10 +1,12 @@
 package com.yujingya.googlemaps;
 
 import android.os.AsyncTask;
+import android.os.Parcelable;
 
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
 
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -83,12 +85,18 @@ public class BinStatus extends AsyncTask<Void, Void, List<BinStatus.Item>> {
         }
     }
 
-    public static class Item {
+    public static class Item implements Serializable {
         private long binId;
         private long binStatus;
         private long requestUrgent;
         private String lastPickUpTime;
         private double lat, lon;
+
+        public String getLatLonStr() {
+            return latLonStr;
+        }
+
+        private String latLonStr;
 
         public Item(long binId, long binStatus, String geoLocationStr,
                     long requestUrgent, String lastPickUpTime) {
@@ -104,6 +112,7 @@ public class BinStatus extends AsyncTask<Void, Void, List<BinStatus.Item>> {
             }
             this.requestUrgent = requestUrgent;
             this.lastPickUpTime = lastPickUpTime;
+            latLonStr = lat + ", " + lon;
         }
 
         private static double[] parseGeoLocation(String geoLocationInStr) {
@@ -170,12 +179,19 @@ public class BinStatus extends AsyncTask<Void, Void, List<BinStatus.Item>> {
             return lon;
         }
 
+        public String getEncodedString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append(binId).append("#");
+            sb.append(binStatus == 0 ? "Empty" : "Full").append("#");
+            sb.append(lat).append(", ").append(lon);
+            return sb.toString();
+        }
+
         @Override
         public String toString() {
             StringBuilder sb = new StringBuilder();
             sb.append("Bin ID: ").append(binId);
             sb.append(String.format("\n"));
-            sb.append(binStatus == 0 ? "Empty" : "Full");
             sb.append(": (").append(lat).append(", ").append(lon).append(")");
             return sb.toString();
         }
