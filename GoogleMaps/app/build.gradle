@@ -4,7 +4,7 @@ android {
     compileSdkVersion 26
     defaultConfig {
         multiDexEnabled true
-        applicationId "com.yujingya.googlemaps"
+        applicationId "com.smartwaste.googlemaps"
         minSdkVersion 23
         targetSdkVersion 26
         versionCode 1
