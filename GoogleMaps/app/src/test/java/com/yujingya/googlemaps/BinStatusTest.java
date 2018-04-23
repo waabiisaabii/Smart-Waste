@@ -23,4 +23,5 @@ public class BinStatusTest {
         BinStatus binStatus = new BinStatus("testInvalidURL");
     }
 
+
 }

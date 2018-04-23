@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -45,7 +46,7 @@ public class BinStatus extends AsyncTask<Void, Void, List<BinStatus.Item>> {
             return result;
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -78,7 +79,7 @@ public class BinStatus extends AsyncTask<Void, Void, List<BinStatus.Item>> {
             return getBinStatusFromServer();
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -106,7 +107,7 @@ public class BinStatus extends AsyncTask<Void, Void, List<BinStatus.Item>> {
         }
 
         private static double[] parseGeoLocation(String geoLocationInStr) {
-            if (geoLocationInStr == null || !geoLocationInStr.matches("[0-9]+,[0-9]+")) {
+            if (geoLocationInStr == null) {
                 return null;
             }
             String[] coords = geoLocationInStr.split(",");

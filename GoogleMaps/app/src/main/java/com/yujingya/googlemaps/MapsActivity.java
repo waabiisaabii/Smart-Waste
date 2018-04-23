@@ -22,6 +22,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
@@ -57,6 +58,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
     }
 
+    private static final String serverURL = "https://peaceful-island-64716.herokuapp.com/iot/";
+    private static final String serverActionGetBinStatus = serverURL + "returnJSON";
 
     /**
      * Manipulates the map once available.
@@ -74,45 +77,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Add kml layer to the map
         createKMLLayer();
 
-        // Add a marker in Sydney and move the camera
-        LatLng Shadyside = new LatLng(40.4556, -79.9277);
-        LatLng Allegheny = new LatLng(40.451993, -80.015763);
-        LatLng Allentown = new LatLng(40.422303, -79.993398);
-        LatLng Bloomfield = new LatLng(40.462161, -79.944453);
-        LatLng EastHills = new LatLng(40.454876, -79.875883);
-
-        Marker myShady = mMap.addMarker(new MarkerOptions()
-                .position(Shadyside)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.greenl)));
-        myShady.setTag("location: Shadyside");
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(Shadyside));
-
-        Marker myAllegheny = mMap.addMarker(new MarkerOptions()
-                .position(Allegheny)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.redl)));
-        myAllegheny.setTag("location: Allegheny West");
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(Allegheny));
-
-        Marker myAllentown = mMap.addMarker(new MarkerOptions()
-                .position(Allentown)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.redl)));
-        myAllentown.setTag("location: Allentown");
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(Allentown));
-
-        Marker myBloomfield = mMap.addMarker(new MarkerOptions()
-                .position(Bloomfield)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.greenl)));
-        myBloomfield.setTag("location: Bloomfield");
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(Bloomfield));
-
-        Marker myEastHills = mMap.addMarker(new MarkerOptions()
-                .position(EastHills)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.redl)));
-        myEastHills.setTag("location: East Hills");
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(EastHills));
-
+        // Display trash bins
+        displayTrashBins(serverActionGetBinStatus);
 
         mMap.setOnMarkerClickListener(this);
+    }
+
+    private void displayTrashBins(String url) {
+        try {
+
+            List<BinStatus.Item> items = new BinStatus(url).execute().get();
+            for (BinStatus.Item item : items) {
+                LatLng coord = new LatLng(item.getLat(), item.getLon());
+                System.out.println(coord);
+                int binColor = item.getBinStatus() == 0 ? R.drawable.greenl : R.drawable.redl;
+                Marker newMarker = mMap.addMarker(new MarkerOptions()
+                        .position(coord)
+                        .icon(BitmapDescriptorFactory.fromResource(binColor)));
+                newMarker.setTag("location: testtest");
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(coord));
+            }
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
     }
 
 

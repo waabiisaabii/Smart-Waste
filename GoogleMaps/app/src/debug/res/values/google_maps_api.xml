@@ -22,9 +22,9 @@
     -->
 
     <!--Jingya's key-->
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyCyE-0gPj_2Jc0-wE3M-jMNeyih6_7YgRQ</string>
+    <!--<string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyCyE-0gPj_2Jc0-wE3M-jMNeyih6_7YgRQ</string>-->
 
     <!--Yachen's key-->
-    <!--<string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBFtNaiHhvvlOHE1u-qi7yOtnnNDDRH8zU</string>-->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBFtNaiHhvvlOHE1u-qi7yOtnnNDDRH8zU</string>
 
 </resources>
