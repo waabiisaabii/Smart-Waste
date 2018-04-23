@@ -40,9 +40,11 @@ public class MapsActivity extends FragmentActivity implements
     public static final String serverActionGetBinStatus = serverURL + "returnJSON";
     public static final String serverActionDamageReport = serverURL + "reportDamage";
     public static final String serverActionGetAllDamageReport = serverURL + "getAllDamageReports";
+    public static final String LAT_LON = "LatLon";
     private GoogleMap mMap;
     private Button damageReportButton;
     private Marker selectedMarker;
+    private Map<String, BinStatus.Item> itemMap;
 
     /**
      * Getter for map.
@@ -99,8 +101,6 @@ public class MapsActivity extends FragmentActivity implements
 
     }
 
-    private Map<String, BinStatus.Item> itemMap;
-
     private void displayTrashBins(String url) {
         try {
 
@@ -137,7 +137,6 @@ public class MapsActivity extends FragmentActivity implements
         return false;
     }
 
-    public static final String LAT_LON = "LatLon";
     public void damageReport(View view) {
         // Do something in response to button click
 
@@ -148,12 +147,26 @@ public class MapsActivity extends FragmentActivity implements
         String itemKey = selectedMarker.getTag().toString();
 
         intent.putExtra(LAT_LON, itemMap.get(itemKey));
-        startActivity(intent);
+//        startActivity(intent);
+        startActivityForResult(intent, RESULT_FIRST_USER);
     }
 
     @Override
     public void onMapClick(LatLng latLng) {
         System.out.println(">>>>>>map clicked");
         damageReportButton.setVisibility(View.GONE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                System.out.println("####result ok!!!!");
+            } else {
+                System.out.println("####result bad");
+            }
+        }
     }
 }
