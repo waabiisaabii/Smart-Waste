@@ -3,6 +3,8 @@ package com.yujingya.googlemaps;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -94,7 +96,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Marker newMarker = mMap.addMarker(new MarkerOptions()
                         .position(coord)
                         .icon(BitmapDescriptorFactory.fromResource(binColor)));
-                newMarker.setTag("location: testtest");
+                newMarker.setTag(item.toString());
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(coord));
             }
 
@@ -112,6 +114,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public boolean onMarkerClick(Marker marker) {
         Toast.makeText(this, (CharSequence) marker.getTag(), Toast.LENGTH_SHORT).show();
+
+        System.out.println("> ######marker clicked" + marker.getTag());
+        Button damageReportButton = findViewById(R.id.damageReportButton);
+        damageReportButton.setVisibility(View.VISIBLE);
         return false;
+    }
+
+    public void damageReport(View view) {
+        // Do something in response to button click
+        System.out.println(">####### damage report button clicked!");
     }
 }

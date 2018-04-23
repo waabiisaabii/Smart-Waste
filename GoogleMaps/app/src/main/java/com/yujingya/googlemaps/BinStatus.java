@@ -172,12 +172,10 @@ public class BinStatus extends AsyncTask<Void, Void, List<BinStatus.Item>> {
 
         @Override
         public String toString() {
-            return "Item{" +
-                    "binId=" + binId +
-                    ", binStatus=" + binStatus +
-                    ", lat=" + lat +
-                    ", lon=" + lon +
-                    '}';
+            StringBuilder sb = new StringBuilder();
+            sb.append(binStatus == 0 ? "Empty" : "Full");
+            sb.append(": (").append(lat).append(", ").append(lon).append(")");
+            return sb.toString();
         }
     }
 }
