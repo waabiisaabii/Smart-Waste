@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.yujingya.googlemaps", appContext.getPackageName());
+        assertEquals("com.smartwaste.googlemaps", appContext.getPackageName());
     }
 }

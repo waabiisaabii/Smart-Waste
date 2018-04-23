@@ -1,3 +1,8 @@
+/*
+ * @author Yachen Lin
+ * @date 4/22/18
+ */
+
 package com.smartwaste.googlemaps;
 
 import android.os.AsyncTask;
@@ -13,14 +18,19 @@ import java.net.URLEncoder;
 import java.util.Map;
 
 /**
- * Created by Yachen on 4/22/18.
+ * Damage Report class. Responsible for sending HTTP POST request to Smart Waste server.
  */
-
 public class DamageReport extends AsyncTask<ReportItem, Void, Integer> {
 
     private static final String HTTP_POST = "POST";
     private URL serverUrl;
 
+    /**
+     * Constructor.
+     *
+     * @param serverUrlStr server url in {@link String}
+     * @throws MalformedURLException MalformedURLException
+     */
     public DamageReport(String serverUrlStr) throws MalformedURLException {
         this.serverUrl = new URL(serverUrlStr);
     }
@@ -64,10 +74,9 @@ public class DamageReport extends AsyncTask<ReportItem, Void, Integer> {
             }
             in.close();
 
-            // print result
             System.out.println(response.toString());
         } else {
-            System.out.println("POST request not worked");
+            System.out.println("POST request did not work");
         }
         return responseCode;
     }

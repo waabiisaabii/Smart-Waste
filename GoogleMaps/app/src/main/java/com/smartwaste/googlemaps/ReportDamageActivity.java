@@ -1,3 +1,8 @@
+/*
+ * @author Yachen Lin
+ * @date 4/22/18
+ */
+
 package com.smartwaste.googlemaps;
 
 import android.app.Activity;
@@ -14,10 +19,8 @@ import java.net.MalformedURLException;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Created by Yachen on 4/23/18.
+ * Report damage activity (related to GUI).
  */
-
-
 public class ReportDamageActivity extends AppCompatActivity {
 
     private EditText descriptionEditText;
@@ -57,7 +60,6 @@ public class ReportDamageActivity extends AppCompatActivity {
     }
 
     public void onClickSendReport(View view) {
-
         try {
             TextView binInfo = findViewById(R.id.binInfoTextView);
             System.out.println(">>>>click send report: " + binInfo.getText() + descriptionEditText.getText());
@@ -74,7 +76,6 @@ public class ReportDamageActivity extends AppCompatActivity {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override

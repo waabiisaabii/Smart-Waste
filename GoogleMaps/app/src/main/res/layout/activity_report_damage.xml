@@ -47,10 +47,10 @@
         android:layout_width="302dp"
         android:layout_height="235dp"
         android:layout_marginTop="8dp"
-        android:ems="10"
-        android:inputType="textMultiLine"
         android:background="@drawable/rounded_border_edittext"
+        android:ems="10"
         android:gravity="top"
+        android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Description" />
@@ -60,8 +60,8 @@
         android:layout_width="304dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Report"
         android:onClick="onClickSendReport"
+        android:text="Report"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/descriptionEditText" />

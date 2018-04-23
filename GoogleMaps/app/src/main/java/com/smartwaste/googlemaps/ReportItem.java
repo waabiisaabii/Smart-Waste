@@ -1,21 +1,20 @@
+/*
+ * @author Yachen Lin
+ * @date 4/22/18
+ */
+
 package com.smartwaste.googlemaps;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Yachen on 4/22/18.
+ * ReportItem class.
  */
-
 public class ReportItem {
     private static final String BIN_ID_NAME = "binID";
     private static final String GEO_LOCATION_NAME = "geoLocation";
     private static final String DESCRIPTION = "description";
-
-    public Map<String, String> getItems() {
-        return new HashMap<>(items);
-    }
-
     private Map<String, String> items;
 
     /**
@@ -41,5 +40,9 @@ public class ReportItem {
         items.put(BIN_ID_NAME, String.valueOf(binId));
         items.put(GEO_LOCATION_NAME, geoLocation);
         items.put(DESCRIPTION, description);
+    }
+
+    public Map<String, String> getItems() {
+        return new HashMap<>(items);
     }
 }

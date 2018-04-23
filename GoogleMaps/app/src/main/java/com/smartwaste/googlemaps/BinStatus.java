@@ -1,7 +1,11 @@
+/*
+ * @author Yachen Lin
+ * @date 4/22/18
+ */
+
 package com.smartwaste.googlemaps;
 
 import android.os.AsyncTask;
-import android.os.Parcelable;
 
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
@@ -91,11 +95,6 @@ public class BinStatus extends AsyncTask<Void, Void, List<BinStatus.Item>> {
         private long requestUrgent;
         private String lastPickUpTime;
         private double lat, lon;
-
-        public String getLatLonStr() {
-            return latLonStr;
-        }
-
         private String latLonStr;
 
         public Item(long binId, long binStatus, String geoLocationStr,
@@ -123,6 +122,10 @@ public class BinStatus extends AsyncTask<Void, Void, List<BinStatus.Item>> {
             double lat = Double.parseDouble(coords[0]);
             double lon = Double.parseDouble(coords[1]);
             return new double[]{lat, lon};
+        }
+
+        public String getLatLonStr() {
+            return latLonStr;
         }
 
         /**

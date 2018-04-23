@@ -17,7 +17,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
-
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -39,7 +38,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ReportDamageActivity"
+        <activity
+            android:name=".ReportDamageActivity"
             android:parentActivityName=".MapsActivity">
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
