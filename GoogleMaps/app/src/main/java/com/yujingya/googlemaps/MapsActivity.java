@@ -1,10 +1,12 @@
 package com.yujingya.googlemaps;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -26,10 +28,17 @@ import java.net.URLConnection;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+public class MapsActivity extends FragmentActivity implements
+        OnMapReadyCallback,
+        GoogleMap.OnMarkerClickListener,
+        GoogleMap.OnMapClickListener {
 
 
+    private static final String serverURL = "https://peaceful-island-64716.herokuapp.com/iot/";
+    private static final String serverActionGetBinStatus = serverURL + "returnJSON";
     private GoogleMap mMap;
+    private Button damageReportButton;
+    private Marker selectedMarker;
 
     /**
      * Getter for map.
@@ -47,7 +56,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
@@ -59,9 +67,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
-
-    private static final String serverURL = "https://peaceful-island-64716.herokuapp.com/iot/";
-    private static final String serverActionGetBinStatus = serverURL + "returnJSON";
 
     /**
      * Manipulates the map once available.
@@ -83,6 +88,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         displayTrashBins(serverActionGetBinStatus);
 
         mMap.setOnMarkerClickListener(this);
+        mMap.setOnMapClickListener(this);
+
+        damageReportButton = findViewById(R.id.damageReportButton);
     }
 
     private void displayTrashBins(String url) {
@@ -107,22 +115,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-
     }
-
 
     @Override
     public boolean onMarkerClick(Marker marker) {
+        selectedMarker = marker;
         Toast.makeText(this, (CharSequence) marker.getTag(), Toast.LENGTH_SHORT).show();
 
         System.out.println("> ######marker clicked" + marker.getTag());
-        Button damageReportButton = findViewById(R.id.damageReportButton);
+
         damageReportButton.setVisibility(View.VISIBLE);
         return false;
     }
 
+    public static final String LAT_LON = "LatLon";
     public void damageReport(View view) {
         // Do something in response to button click
-        System.out.println(">####### damage report button clicked!");
+
+        System.out.print(">####### damage report button clicked! ");
+        System.out.println(selectedMarker.getTag());
+
+        Intent intent = new Intent(this, ReportDamageActivity.class);
+        String message = selectedMarker.getTag().toString();
+        intent.putExtra(LAT_LON, message);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+        System.out.println(">>>>>>map clicked");
+        damageReportButton.setVisibility(View.GONE);
     }
 }

@@ -173,6 +173,8 @@ public class BinStatus extends AsyncTask<Void, Void, List<BinStatus.Item>> {
         @Override
         public String toString() {
             StringBuilder sb = new StringBuilder();
+            sb.append("Bin ID: ").append(binId);
+            sb.append(String.format("\n"));
             sb.append(binStatus == 0 ? "Empty" : "Full");
             sb.append(": (").append(lat).append(", ").append(lon).append(")");
             return sb.toString();
