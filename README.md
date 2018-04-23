@@ -43,3 +43,5 @@
     + time in the format: `11:09PM on March 25, 2018`
     + default: `None`
 
+* Get all damage reports
+    - [https://peaceful-island-64716.herokuapp.com/iot/getAllDamageReports](https://peaceful-island-64716.herokuapp.com/iot/getAllDamageReports)
