@@ -19,6 +19,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -203,10 +204,11 @@ public class MapsActivity extends AppCompatActivity implements
 
     public void shadysideFocus(MenuItem item) {
         System.out.println("shady!");
-        CameraUpdate center =
-                CameraUpdateFactory.newLatLng(new LatLng(shadyLat, shadyLon));
-        CameraUpdate zoom = CameraUpdateFactory.zoomTo(ZOOM_LEVEL);
-        mMap.animateCamera(center, 1000, null);
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(new LatLng(shadyLat, shadyLon))
+                .zoom(ZOOM_LEVEL)
+                .build();
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 1000, null);
         mDrawerLayout.closeDrawers();
     }
 
@@ -214,10 +216,11 @@ public class MapsActivity extends AppCompatActivity implements
     private static final double hill1Lon = -79.9346548;
     public void hill1Focus(MenuItem item) {
         System.out.println("hill1!");
-        CameraUpdate center =
-                CameraUpdateFactory.newLatLng(new LatLng(hill1Lat, hill1Lon));
-        CameraUpdate zoom = CameraUpdateFactory.zoomTo(ZOOM_LEVEL);
-        mMap.animateCamera(center, 1000, null);
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(new LatLng(hill1Lat, hill1Lon))
+                .zoom(ZOOM_LEVEL)
+                .build();
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 1000, null);
         mDrawerLayout.closeDrawers();
     }
 
@@ -225,10 +228,11 @@ public class MapsActivity extends AppCompatActivity implements
     private static final double hill2Lon = -79.9320408;
     public void hill2Focus(MenuItem item) {
         System.out.println("hill2");
-        CameraUpdate center =
-                CameraUpdateFactory.newLatLng(new LatLng(hill2Lat, hill2Lon));
-        CameraUpdate zoom = CameraUpdateFactory.zoomTo(ZOOM_LEVEL);
-        mMap.animateCamera(center, 1000, null);
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(new LatLng(hill2Lat, hill2Lon))
+                .zoom(ZOOM_LEVEL)
+                .build();
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 1000, null);
         mDrawerLayout.closeDrawers();
     }
 
@@ -236,10 +240,11 @@ public class MapsActivity extends AppCompatActivity implements
     private static final double oaklandLon = -79.9560714;
     public void oaklandFocus(MenuItem item) {
         System.out.println("oakland");
-        CameraUpdate center =
-                CameraUpdateFactory.newLatLng(new LatLng(oaklandLat, oaklandLon));
-        CameraUpdate zoom = CameraUpdateFactory.zoomTo(ZOOM_LEVEL);
-        mMap.animateCamera(center, 1000, null);
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(new LatLng(oaklandLat, oaklandLon))
+                .zoom(ZOOM_LEVEL)
+                .build();
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 1000, null);
         mDrawerLayout.closeDrawers();
     }
 }
