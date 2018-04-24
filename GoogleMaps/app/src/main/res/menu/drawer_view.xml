@@ -3,13 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_gallery"
-            android:title="test1" />
+            android:id="@+id/shadyside"
+            android:title="ShadySide"
+            android:onClick="shadysideFocus"/>
         <item
-            android:id="@+id/nav_slideshow"
-            android:title="test2" />
+            android:id="@+id/hill1"
+            android:title="Squirrel Hill 1"
+            android:onClick="hill1Focus"/>
         <item
-            android:id="@+id/nav_manage"
-            android:title="test3" />
+            android:id="@+id/hill2"
+            android:title="Squirrel Hill 2"
+            android:onClick="hill2Focus"/>
+        <item
+            android:id="@+id/oakland"
+            android:title="Oakland"
+            android:onClick="oaklandFocus"/>
     </group>
 </menu>

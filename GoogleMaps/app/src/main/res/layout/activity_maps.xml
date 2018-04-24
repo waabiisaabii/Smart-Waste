@@ -24,7 +24,12 @@
                 android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context="com.yujingya.googlemaps.MapsActivity" />
+                tools:context="com.yujingya.googlemaps.MapsActivity"
+                map:cameraBearing="0"
+                map:cameraTargetLat="40.442877"
+                map:cameraTargetLng="-79.943236"
+                map:cameraTilt="30"
+                map:cameraZoom="12"/>
 
             <Button
                 android:id="@+id/damageReportButton"
