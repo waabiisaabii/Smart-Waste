@@ -1,26 +1,342 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
-<!-- created by GmapGIS.com -->
-<Document><name>MynameKML file polygon </name><description>Some descrition</description><Style id="polyStyID_0"><LineStyle><color>FF0000FF</color><width>5</width></LineStyle><PolyStyle><color>660088ff</color></PolyStyle> </Style><Placemark><name>Polygon 1</name><description><![CDATA[]]></description><styleUrl>#polyStyID_0</styleUrl><Polygon><tessellate>1</tessellate><altitudeMode>clampToGround</altitudeMode><outerBoundaryIs><LinearRing><coordinates>
--124.69727,48.15669,0.0
--124.01367,46.31658,0.0
--124.01367,44.46515,0.0
--124.62891,43.06889,0.0
--124.18945,41.50858,0.0
--124.18945,40.13452,0.0
--124.18945,39.09596,0.0
--122.48407,38.23043,0.0
--120.84961,34.37971,0.0
--119.70703,34.37971,0.0
--117.42187,32.99024,0.0
--117.42187,32.24997,0.0
--116.10352,30.2211,0.0
--114.28437,28.56071,0.0
--112.42242,31.71114,0.0
--110.21484,31.42866,0.0
--107.40234,31.42866,0.0
--96.06445,25.56227,0.0
--89.82422,29.61167,0.0
--88.59375,47.39835,0.0
--123.5933,49.88998,0.0
-</coordinates></LinearRing></outerBoundaryIs></Polygon></Placemark></Document></kml>
+  <Document>
+    <name>CMU Escort Zones</name>
+    <description/>
+    <Style id="poly-33CC00-3000-115-nodesc-normal">
+      <LineStyle>
+        <color>ff00cc33</color>
+        <width>3</width>
+      </LineStyle>
+      <PolyStyle>
+        <color>7300cc33</color>
+        <fill>1</fill>
+        <outline>1</outline>
+      </PolyStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <Style id="poly-33CC00-3000-115-nodesc-highlight">
+      <LineStyle>
+        <color>ff00cc33</color>
+        <width>4.5</width>
+      </LineStyle>
+      <PolyStyle>
+        <color>7300cc33</color>
+        <fill>1</fill>
+        <outline>1</outline>
+      </PolyStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <StyleMap id="poly-33CC00-3000-115-nodesc">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#poly-33CC00-3000-115-nodesc-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#poly-33CC00-3000-115-nodesc-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Style id="poly-33CCFF-3000-115-nodesc-normal">
+      <LineStyle>
+        <color>ffffcc33</color>
+        <width>3</width>
+      </LineStyle>
+      <PolyStyle>
+        <color>73ffcc33</color>
+        <fill>1</fill>
+        <outline>1</outline>
+      </PolyStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <Style id="poly-33CCFF-3000-115-nodesc-highlight">
+      <LineStyle>
+        <color>ffffcc33</color>
+        <width>4.5</width>
+      </LineStyle>
+      <PolyStyle>
+        <color>73ffcc33</color>
+        <fill>1</fill>
+        <outline>1</outline>
+      </PolyStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <StyleMap id="poly-33CCFF-3000-115-nodesc">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#poly-33CCFF-3000-115-nodesc-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#poly-33CCFF-3000-115-nodesc-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Style id="poly-FF0000-3000-115-nodesc-normal">
+      <LineStyle>
+        <color>ff0000ff</color>
+        <width>3</width>
+      </LineStyle>
+      <PolyStyle>
+        <color>730000ff</color>
+        <fill>1</fill>
+        <outline>1</outline>
+      </PolyStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <Style id="poly-FF0000-3000-115-nodesc-highlight">
+      <LineStyle>
+        <color>ff0000ff</color>
+        <width>4.5</width>
+      </LineStyle>
+      <PolyStyle>
+        <color>730000ff</color>
+        <fill>1</fill>
+        <outline>1</outline>
+      </PolyStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <StyleMap id="poly-FF0000-3000-115-nodesc">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#poly-FF0000-3000-115-nodesc-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#poly-FF0000-3000-115-nodesc-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Style id="poly-FFFF33-3000-115-nodesc-normal">
+      <LineStyle>
+        <color>ff33ffff</color>
+        <width>3</width>
+      </LineStyle>
+      <PolyStyle>
+        <color>7333ffff</color>
+        <fill>1</fill>
+        <outline>1</outline>
+      </PolyStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <Style id="poly-FFFF33-3000-115-nodesc-highlight">
+      <LineStyle>
+        <color>ff33ffff</color>
+        <width>4.5</width>
+      </LineStyle>
+      <PolyStyle>
+        <color>7333ffff</color>
+        <fill>1</fill>
+        <outline>1</outline>
+      </PolyStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <StyleMap id="poly-FFFF33-3000-115-nodesc">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#poly-FFFF33-3000-115-nodesc-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#poly-FFFF33-3000-115-nodesc-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Folder>
+      <name>Untitled layer</name>
+      <Placemark>
+        <name>Oakland Escort Route</name>
+        <styleUrl>#poly-33CC00-3000-115-nodesc</styleUrl>
+        <Polygon>
+          <outerBoundaryIs>
+            <LinearRing>
+              <tessellate>1</tessellate>
+              <coordinates>
+                -79.946136,40.4558623,0
+                -79.947617,40.4559763,0
+                -79.947789,40.4551603,0
+                -79.94766,40.4543573,0
+                -79.95004,40.4540173,0
+                -79.95334,40.4540273,0
+                -79.95214,40.4518073,0
+                -79.95497,40.4509273,0
+                -79.95557,40.4491273,0
+                -79.95819,40.4472373,0
+                -79.95497,40.4444273,0
+                -79.9639,40.4377973,0
+                -79.96308,40.4370773,0
+                -79.96132,40.4382873,0
+                -79.95819,40.4359373,0
+                -79.95278,40.4343973,0
+                -79.95008,40.4345673,0
+                -79.95077,40.4395973,0
+                -79.94828,40.4424073,0
+                -79.94656,40.4450773,0
+                -79.94729,40.4470373,0
+                -79.9401214,40.447592,0
+                -79.9404863,40.4491146,0
+                -79.9417096,40.4514125,0
+                -79.9425927,40.4530138,0
+                -79.9432971,40.4543892,0
+                -79.9441113,40.4553038,0
+                -79.9452095,40.4549953,0
+                -79.946136,40.4558623,0
+              </coordinates>
+            </LinearRing>
+          </outerBoundaryIs>
+        </Polygon>
+      </Placemark>
+      <Placemark>
+        <name>Squirrel Hill Route 2</name>
+        <styleUrl>#poly-FF0000-3000-115-nodesc</styleUrl>
+        <Polygon>
+          <outerBoundaryIs>
+            <LinearRing>
+              <tessellate>1</tessellate>
+              <coordinates>
+                -79.9421026,40.4467188,0
+                -79.9420594,40.4459347,0
+                -79.9426604,40.4446287,0
+                -79.9385404,40.4439427,0
+                -79.9355364,40.4405457,0
+                -79.9306014,40.4420477,0
+                -79.9218462,40.4421621,0
+                -79.9213957,40.4382679,0
+                -79.9212346,40.4364141,0
+                -79.9210308,40.4343237,0
+                -79.9213525,40.4314081,0
+                -79.9215456,40.430077,0
+                -79.9220283,40.4290888,0
+                -79.9223503,40.4285172,0
+                -79.9187564,40.4276107,0
+                -79.9184994,40.4284267,0
+                -79.9158814,40.4279697,0
+                -79.9149804,40.4302887,0
+                -79.9148944,40.4326737,0
+                -79.9137784,40.4335557,0
+                -79.9118904,40.4341767,0
+                -79.9122334,40.4352217,0
+                -79.9088434,40.4359397,0
+                -79.9086284,40.4366587,0
+                -79.9091434,40.4373117,0
+                -79.9112464,40.4378997,0
+                -79.9155163,40.4376224,0
+                -79.9176834,40.4443997,0
+                -79.9203444,40.4439427,0
+                -79.9219542,40.4440076,0
+                -79.9234991,40.4440735,0
+                -79.9260525,40.4441959,0
+                -79.9277261,40.4442203,0
+                -79.9313732,40.4458853,0
+                -79.9327253,40.4464245,0
+                -79.9340774,40.4468819,0
+                -79.9390342,40.4468984,0
+                -79.9421026,40.4467188,0
+              </coordinates>
+            </LinearRing>
+          </outerBoundaryIs>
+        </Polygon>
+      </Placemark>
+      <Placemark>
+        <name>Squirrel Hill Route 1</name>
+        <styleUrl>#poly-FFFF33-3000-115-nodesc</styleUrl>
+        <Polygon>
+          <outerBoundaryIs>
+            <LinearRing>
+              <tessellate>1</tessellate>
+              <coordinates>
+                -79.935622,40.440448,0
+                -79.932961,40.437802,0
+                -79.934034,40.437704,0
+                -79.93279,40.431824,0
+                -79.932919,40.430354,0
+                -79.930043,40.430714,0
+                -79.929013,40.429766,0
+                -79.927211,40.429276,0
+                -79.9223503,40.4285172,0
+                -79.9215456,40.430077,0
+                -79.9212775,40.431792,0
+                -79.9210308,40.4343237,0
+                -79.9213528,40.43808,0
+                -79.9218462,40.4421621,0
+                -79.9306014,40.4420477,0
+                -79.935622,40.440448,0
+              </coordinates>
+            </LinearRing>
+          </outerBoundaryIs>
+        </Polygon>
+      </Placemark>
+      <Placemark>
+        <name>Shadyside Escort Route</name>
+        <styleUrl>#poly-33CCFF-3000-115-nodesc</styleUrl>
+        <Polygon>
+          <outerBoundaryIs>
+            <LinearRing>
+              <tessellate>1</tessellate>
+              <coordinates>
+                -79.9400034,40.4468164,0
+                -79.9385253,40.4468838,0
+                -79.9363285,40.4468694,0
+                -79.9340774,40.4468819,0
+                -79.9325309,40.4475301,0
+                -79.929055,40.4489336,0
+                -79.921331,40.4521719,0
+                -79.9202588,40.4522052,0
+                -79.92249,40.455732,0
+                -79.921868,40.459144,0
+                -79.920688,40.459666,0
+                -79.92146,40.4602,0
+                -79.9227,40.46056,0
+                -79.92497,40.4601,0
+                -79.92506,40.46043,0
+                -79.92626,40.46069,0
+                -79.92952,40.45968,0
+                -79.93506,40.46157,0
+                -79.93785,40.46187,0
+                -79.93858,40.45684,0
+                -79.9441113,40.4553038,0
+                -79.9432971,40.4543892,0
+                -79.941538,40.4511913,0
+                -79.9404863,40.4491146,0
+                -79.9400034,40.4468164,0
+              </coordinates>
+            </LinearRing>
+          </outerBoundaryIs>
+        </Polygon>
+      </Placemark>
+      <Placemark>
+        <name>Shape 6</name>
+        <styleUrl>#poly-33CC00-3000-115-nodesc</styleUrl>
+        <Polygon>
+          <outerBoundaryIs>
+            <LinearRing>
+              <tessellate>1</tessellate>
+              <coordinates>
+                -79.954548,40.434928,0
+                -79.955471,40.43073,0
+                -79.953732,40.429423,0
+                -79.953175,40.429962,0
+                -79.952123,40.434487,0
+                -79.952767,40.434421,0
+                -79.954548,40.434928,0
+              </coordinates>
+            </LinearRing>
+          </outerBoundaryIs>
+        </Polygon>
+      </Placemark>
+    </Folder>
+  </Document>
+</kml>
