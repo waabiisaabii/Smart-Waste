@@ -28,7 +28,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -38,19 +37,12 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.data.kml.KmlLayer;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
-
-import javax.net.ssl.HttpsURLConnection;
 
 /**
  * Main Activity.
@@ -100,6 +92,9 @@ public class MapsActivity extends AppCompatActivity implements
     private View locationButton;
     private List<BinStatus.Item> items;
     private String apiKey;
+    private Button quitDirectionButton;
+    private LatLng myLocation;
+    private Polyline polyline;
 
     /**
      * Getter for map.
@@ -159,8 +154,6 @@ public class MapsActivity extends AppCompatActivity implements
         }
         return super.onOptionsItemSelected(item);
     }
-
-    private Button quitDirectionButton;
 
     /**
      * Manipulates the map once available.
@@ -319,8 +312,6 @@ public class MapsActivity extends AppCompatActivity implements
         startActivityForResult(intent, RESULT_FIRST_USER);
     }
 
-    private LatLng myLocation;
-
     public void navigateToTarget(View view) {
         List<LatLng> fullBinsLatLon = new ArrayList<>();
         for (BinStatus.Item bin : items) {
@@ -395,9 +386,6 @@ public class MapsActivity extends AppCompatActivity implements
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 1000, null);
 
     }
-
-
-    private Polyline polyline;
 
     private String[] concatenateBinLocations(List<LatLng> fullBinsLatLon) {
         StringBuilder sb = new StringBuilder();
