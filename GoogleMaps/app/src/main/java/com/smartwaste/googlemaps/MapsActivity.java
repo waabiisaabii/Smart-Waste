@@ -1,6 +1,7 @@
 package com.smartwaste.googlemaps;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Handler;
@@ -49,11 +50,21 @@ public class MapsActivity extends AppCompatActivity implements
     public static final String serverActionGetBinStatus = serverURL + "returnJSON";
     public static final String serverActionDamageReport = serverURL + "reportDamage";
     public static final String LAT_LON = "LatLon";
+    private static final double shadyLat = 40.4548835;
+    private static final double shadyLon = -79.9411988;
+    private static final int ZOOM_LEVEL = 13;
+    private static final double hill1Lat = 40.4351725;
+    private static final double hill1Lon = -79.9346548;
+    private static final double hill2Lat = 40.4414185;
+    private static final double hill2Lon = -79.9320408;
+    private static final double oaklandLat = 40.4455836;
+    private static final double oaklandLon = -79.9560714;
     private GoogleMap mMap;
     private Button damageReportButton;
     private Marker selectedMarker;
     private Map<String, BinStatus.Item> itemMap;
     private DrawerLayout mDrawerLayout;
+    private List<Marker> markers;
 
     /**
      * Getter for map.
@@ -134,10 +145,11 @@ public class MapsActivity extends AppCompatActivity implements
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
+            System.out.println(">>> My location is enabled.");
         } else {
             // Show rationale and request permission.
             ActivityCompat.requestPermissions(MapsActivity.this,
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     1);
 
         }
@@ -148,9 +160,11 @@ public class MapsActivity extends AppCompatActivity implements
         mMap.getUiSettings().setMapToolbarEnabled(false);
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
+        // https://developer.android.com/training/permissions/requesting.html
         switch (requestCode) {
             case 1: {
 
@@ -160,11 +174,14 @@ public class MapsActivity extends AppCompatActivity implements
 
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
+                    mMap.setMyLocationEnabled(true);
+                    System.out.println(">>> My location is enabled.");
                 } else {
 
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
-                    Toast.makeText(MapsActivity.this, "Permission denied to get your current location", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MapsActivity.this,
+                            "Permission denied to get your current location", Toast.LENGTH_SHORT).show();
                     finish();
                 }
                 return;
@@ -174,8 +191,6 @@ public class MapsActivity extends AppCompatActivity implements
             // permissions this app might request
         }
     }
-
-    private List<Marker> markers;
 
     private void displayTrashBins(String url) {
         try {
@@ -268,11 +283,6 @@ public class MapsActivity extends AppCompatActivity implements
         }
     }
 
-
-    private static final double shadyLat = 40.4548835;
-    private static final double shadyLon = -79.9411988;
-    private static final int ZOOM_LEVEL = 13;
-
     public void shadysideFocus(MenuItem item) {
         System.out.println("shady!");
         CameraPosition cameraPosition = new CameraPosition.Builder()
@@ -283,8 +293,6 @@ public class MapsActivity extends AppCompatActivity implements
         mDrawerLayout.closeDrawers();
     }
 
-    private static final double hill1Lat = 40.4351725;
-    private static final double hill1Lon = -79.9346548;
     public void hill1Focus(MenuItem item) {
         System.out.println("hill1!");
         CameraPosition cameraPosition = new CameraPosition.Builder()
@@ -295,8 +303,6 @@ public class MapsActivity extends AppCompatActivity implements
         mDrawerLayout.closeDrawers();
     }
 
-    private static final double hill2Lat = 40.4414185;
-    private static final double hill2Lon = -79.9320408;
     public void hill2Focus(MenuItem item) {
         System.out.println("hill2");
         CameraPosition cameraPosition = new CameraPosition.Builder()
@@ -307,8 +313,6 @@ public class MapsActivity extends AppCompatActivity implements
         mDrawerLayout.closeDrawers();
     }
 
-    private static final double oaklandLat = 40.4455836;
-    private static final double oaklandLon = -79.9560714;
     public void oaklandFocus(MenuItem item) {
         System.out.println("oakland");
         CameraPosition cameraPosition = new CameraPosition.Builder()
