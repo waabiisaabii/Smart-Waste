@@ -36,12 +36,19 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.data.kml.KmlLayer;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+
+import javax.net.ssl.HttpsURLConnection;
 
 /**
  * Main Activity.
@@ -325,6 +332,10 @@ public class MapsActivity extends AppCompatActivity implements
         LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
         String encodedMyLocationStr = encodeLocationString(userLocation.toString());
 
+        if (fullBinsLatLon == null || fullBinsLatLon.size() == 0) {
+            System.out.println("No bins detected");
+            return;
+        }
         String[] binsLocationStrConcat = concatenateBinLocations(fullBinsLatLon);
 
         String requestURL = String.format(WAY_POINTS_URL,
@@ -334,9 +345,19 @@ public class MapsActivity extends AppCompatActivity implements
                 apiKey);
         //TODO
         System.out.println(requestURL);
+        try {
+            List<LatLng[]> routePoints = new WayPointRoute().execute(requestURL).get();
+            System.out.println("Got all waypoints");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
 
 
     }
+
+
 
     private String[] concatenateBinLocations(List<LatLng> fullBinsLatLon) {
         StringBuilder sb = new StringBuilder();
@@ -351,7 +372,7 @@ public class MapsActivity extends AppCompatActivity implements
     }
 
     private String encodeLocationString(String given) {
-        given = given.replace(",", "%%2C");
+        given = given.replace(",", "%2C");
         return given.substring(10, given.length() - 1);
     }
 
