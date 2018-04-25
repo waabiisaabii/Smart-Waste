@@ -7,6 +7,8 @@ package com.smartwaste.googlemaps;
 
 import android.os.AsyncTask;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
 
@@ -96,6 +98,7 @@ public class BinStatus extends AsyncTask<Void, Void, List<BinStatus.Item>> {
         private String lastPickUpTime;
         private double lat, lon;
         private String latLonStr;
+        private LatLng latLng;
 
         public Item(long binId, long binStatus, String geoLocationStr,
                     long requestUrgent, String lastPickUpTime) {
@@ -109,6 +112,7 @@ public class BinStatus extends AsyncTask<Void, Void, List<BinStatus.Item>> {
                 lat = coords[0];
                 lon = coords[1];
             }
+            latLng = new LatLng(lat, lon);
             this.requestUrgent = requestUrgent;
             this.lastPickUpTime = lastPickUpTime;
             latLonStr = lat + ", " + lon;
@@ -122,6 +126,15 @@ public class BinStatus extends AsyncTask<Void, Void, List<BinStatus.Item>> {
             double lat = Double.parseDouble(coords[0]);
             double lon = Double.parseDouble(coords[1]);
             return new double[]{lat, lon};
+        }
+
+        /**
+         * Getter for latLon {@link LatLng}.
+         *
+         * @return Getter for latLon {@link LatLng}
+         */
+        public LatLng getLatLng() {
+            return latLng;
         }
 
         public String getLatLonStr() {
@@ -162,6 +175,15 @@ public class BinStatus extends AsyncTask<Void, Void, List<BinStatus.Item>> {
          */
         public long getBinStatus() {
             return binStatus;
+        }
+
+        /**
+         * Return true if the bin is full.
+         *
+         * @return Return true if the bin is full.
+         */
+        public boolean isFull() {
+            return binStatus == 1L;
         }
 
         /**

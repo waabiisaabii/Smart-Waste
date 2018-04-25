@@ -4,7 +4,9 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -64,6 +66,21 @@ public class MapsActivity extends AppCompatActivity implements
     private static final double hill2Lon = -79.9320408;
     private static final double oaklandLat = 40.4455836;
     private static final double oaklandLon = -79.9560714;
+    /**
+     * Example:
+     * https://maps.googleapis.com/maps/api/directions/json?
+     * origin=Adelaide,SA
+     * &destination=Adelaide,SA
+     * &waypoints=optimize:true
+     * |Barossa+Valley,SA|Clare,SA|Connawarra,SA|McLaren+Vale,SA
+     * &key=YOUR_API_KEY
+     */
+    private final String WAY_POINTS_URL = "https://maps.googleapis.com/maps/api/directions/json?" +
+            "origin=%s" +
+            "&destination=%s" +
+            "&waypoints=optimize:true" +
+            "%s" +
+            "&key=%s";
     private GoogleMap mMap;
     private Button damageReportButton;
     private Button navigateButton;
@@ -71,6 +88,9 @@ public class MapsActivity extends AppCompatActivity implements
     private Map<String, BinStatus.Item> itemMap;
     private DrawerLayout mDrawerLayout;
     private List<Marker> markers;
+    private View locationButton;
+    private List<BinStatus.Item> items;
+    private String apiKey;
 
     /**
      * Getter for map.
@@ -93,6 +113,7 @@ public class MapsActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        apiKey = getResources().getString(R.string.google_maps_key_waypoints);
         markers = new ArrayList<>();
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -180,7 +201,7 @@ public class MapsActivity extends AppCompatActivity implements
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
             layoutParams.setMargins(0, 1500, 30, 0);
 
-            View locationButton = ((View) findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
+            locationButton = ((View) findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
             // and next place it, on bottom right (as Google Maps app)
             RelativeLayout.LayoutParams layoutParams2 = (RelativeLayout.LayoutParams)
                     locationButton.getLayoutParams();
@@ -231,7 +252,7 @@ public class MapsActivity extends AppCompatActivity implements
             selectedMarker = tmpSelectedMarker;
 
             itemMap = new HashMap<>();
-            List<BinStatus.Item> items = new BinStatus(url).execute().get();
+            items = new BinStatus(url).execute().get();
             for (BinStatus.Item item : items) {
                 itemMap.put(item.toString(), item);
                 LatLng coord = new LatLng(item.getLat(), item.getLon());
@@ -287,7 +308,51 @@ public class MapsActivity extends AppCompatActivity implements
     }
 
     public void navigateToTarget(View view) {
+        List<LatLng> fullBinsLatLon = new ArrayList<>();
+        for (BinStatus.Item bin : items) {
+            if (bin.isFull()) {
+                fullBinsLatLon.add(bin.getLatLng());
+            }
+        }
+        System.out.print(fullBinsLatLon.size() + " bins need to be collected. ");
 
+        // Get my location
+        // https://stackoverflow.com/questions/13756261/how-to-get-the-current-location-in-google-maps-android-api-v2
+        LocationManager service = (LocationManager) getSystemService(LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        String provider = service.getBestProvider(criteria, false);
+        @SuppressLint("MissingPermission") Location location = service.getLastKnownLocation(provider);
+        LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
+        String encodedMyLocationStr = encodeLocationString(userLocation.toString());
+
+        String[] binsLocationStrConcat = concatenateBinLocations(fullBinsLatLon);
+
+        String requestURL = String.format(WAY_POINTS_URL,
+                encodedMyLocationStr,
+                binsLocationStrConcat[1],
+                binsLocationStrConcat[0],
+                apiKey);
+        //TODO
+        System.out.println(requestURL);
+
+
+    }
+
+    private String[] concatenateBinLocations(List<LatLng> fullBinsLatLon) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < fullBinsLatLon.size() - 1; i++) {
+            LatLng latLng = fullBinsLatLon.get(i);
+            sb.append("|");
+            sb.append(encodeLocationString(latLng.toString()));
+        }
+        LatLng lastLatLng = fullBinsLatLon.get(fullBinsLatLon.size() - 1);
+
+        return new String[]{sb.toString(), encodeLocationString(lastLatLng.toString())};
+    }
+
+    private String encodeLocationString(String given) {
+        given = given.replace(",", "%%2C");
+        return given.substring(10, given.length() - 1);
     }
 
     @Override
