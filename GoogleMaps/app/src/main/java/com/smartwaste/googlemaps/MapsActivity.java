@@ -89,7 +89,7 @@ public class MapsActivity extends AppCompatActivity implements
         final Runnable r = new Runnable() {
             public void run() {
                 //5 seconds
-                handler.postDelayed(this, 5000);
+                handler.postDelayed(this, 60000);
                 displayTrashBins(serverActionGetBinStatus);
             }
         };
@@ -128,7 +128,10 @@ public class MapsActivity extends AppCompatActivity implements
 
     private void displayTrashBins(String url) {
         try {
+            Marker tmpSelectedMarker = selectedMarker;
             mMap.clear();
+            selectedMarker = tmpSelectedMarker;
+
             // Add kml layer to the map
             createKMLLayer();
 
