@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
 
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -27,7 +26,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.data.kml.KmlLayer;
 
 import java.net.MalformedURLException;
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,6 +71,7 @@ public class MapsActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        markers = new ArrayList<>();
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -89,7 +89,7 @@ public class MapsActivity extends AppCompatActivity implements
         final Runnable r = new Runnable() {
             public void run() {
                 //5 seconds
-                handler.postDelayed(this, 60000);
+                handler.postDelayed(this, 5000);
                 displayTrashBins(serverActionGetBinStatus);
             }
         };
@@ -119,6 +119,8 @@ public class MapsActivity extends AppCompatActivity implements
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        createKMLLayer();
+
         mMap.setOnMarkerClickListener(this);
         mMap.setOnMapClickListener(this);
 
@@ -126,14 +128,13 @@ public class MapsActivity extends AppCompatActivity implements
 
     }
 
+    private List<Marker> markers;
+
     private void displayTrashBins(String url) {
         try {
             Marker tmpSelectedMarker = selectedMarker;
-            mMap.clear();
+            updateMarkers();
             selectedMarker = tmpSelectedMarker;
-
-            // Add kml layer to the map
-            createKMLLayer();
 
             itemMap = new HashMap<>();
             List<BinStatus.Item> items = new BinStatus(url).execute().get();
@@ -145,7 +146,11 @@ public class MapsActivity extends AppCompatActivity implements
                 Marker newMarker = mMap.addMarker(new MarkerOptions()
                         .position(coord)
                         .icon(BitmapDescriptorFactory.fromResource(binColor)));
+
                 newMarker.setTag(item.toString());
+
+                markers.add(newMarker);
+
 //                mMap.moveCamera(CameraUpdateFactory.newLatLng(coord));
             }
 
@@ -156,6 +161,13 @@ public class MapsActivity extends AppCompatActivity implements
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+    }
+
+    private void updateMarkers() {
+        for (Marker marker : markers) {
+            marker.remove();
+        }
+        markers.clear();
     }
 
     @Override

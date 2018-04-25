@@ -47,6 +47,8 @@ def sendAndDisplayData(green, red, status,
 	# print 'a' if re.match(pattern, location) else '000'
 	time.sleep(sleep)
 
+
+
 while True:
 	print '####################### next round #################'
 	fullness = np.random.choice([0, 1], size=(len(locations),), p=[1./2, 1./2])
