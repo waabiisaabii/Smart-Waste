@@ -34,6 +34,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.data.kml.KmlLayer;
 
 import java.io.BufferedReader;
@@ -158,6 +160,8 @@ public class MapsActivity extends AppCompatActivity implements
         return super.onOptionsItemSelected(item);
     }
 
+    private Button quitDirectionButton;
+
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -190,6 +194,7 @@ public class MapsActivity extends AppCompatActivity implements
 
         damageReportButton = findViewById(R.id.damageReportButton);
         navigateButton = findViewById(R.id.directionButton);
+        quitDirectionButton = findViewById(R.id.quitDirectionButton);
 
         // disable redirection to external Google Map App
         mMap.getUiSettings().setMapToolbarEnabled(false);
@@ -314,6 +319,8 @@ public class MapsActivity extends AppCompatActivity implements
         startActivityForResult(intent, RESULT_FIRST_USER);
     }
 
+    private LatLng myLocation;
+
     public void navigateToTarget(View view) {
         List<LatLng> fullBinsLatLon = new ArrayList<>();
         for (BinStatus.Item bin : items) {
@@ -329,8 +336,8 @@ public class MapsActivity extends AppCompatActivity implements
         Criteria criteria = new Criteria();
         String provider = service.getBestProvider(criteria, false);
         @SuppressLint("MissingPermission") Location location = service.getLastKnownLocation(provider);
-        LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
-        String encodedMyLocationStr = encodeLocationString(userLocation.toString());
+        myLocation = new LatLng(location.getLatitude(), location.getLongitude());
+        String encodedMyLocationStr = encodeLocationString(myLocation.toString());
 
         if (fullBinsLatLon == null || fullBinsLatLon.size() == 0) {
             System.out.println("No bins detected");
@@ -343,11 +350,13 @@ public class MapsActivity extends AppCompatActivity implements
                 binsLocationStrConcat[1],
                 binsLocationStrConcat[0],
                 apiKey);
-        //TODO
+
         System.out.println(requestURL);
         try {
-            List<LatLng[]> routePoints = new WayPointRoute().execute(requestURL).get();
-            System.out.println("Got all waypoints");
+            List<LatLng> routePoints = new WayPointRoute().execute(requestURL).get();
+
+            drawPolyLine(routePoints);
+            System.out.println("Finish drawing lines");
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -357,7 +366,38 @@ public class MapsActivity extends AppCompatActivity implements
 
     }
 
+    public void quitNavigation(View view) {
+        navigateButton.setVisibility(View.VISIBLE);
+        quitDirectionButton.setVisibility(View.INVISIBLE);
+        polyline.remove();
 
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(myLocation)
+                .zoom(ZOOM_LEVEL)
+                .build();
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 1000, null);
+    }
+
+    private void drawPolyLine(List<LatLng> routePoints) {
+        PolylineOptions polylineOptions = new PolylineOptions();
+        for (LatLng point : routePoints) {
+            polylineOptions.add(point);
+        }
+        polyline = mMap.addPolyline(polylineOptions);
+
+        navigateButton.setVisibility(View.INVISIBLE);
+        quitDirectionButton.setVisibility(View.VISIBLE);
+
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(myLocation)
+                .zoom(ZOOM_LEVEL + 2)
+                .build();
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 1000, null);
+
+    }
+
+
+    private Polyline polyline;
 
     private String[] concatenateBinLocations(List<LatLng> fullBinsLatLon) {
         StringBuilder sb = new StringBuilder();
@@ -455,4 +495,6 @@ public class MapsActivity extends AppCompatActivity implements
     public void onMyLocationClick(@NonNull Location location) {
         Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG).show();
     }
+
+
 }

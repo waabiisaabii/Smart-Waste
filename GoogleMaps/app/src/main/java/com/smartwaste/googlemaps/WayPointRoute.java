@@ -20,14 +20,14 @@ import org.json.simple.parser.ParseException;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class WayPointRoute extends AsyncTask<String, Void, List<LatLng[]>> {
+public class WayPointRoute extends AsyncTask<String, Void, List<LatLng>> {
     @Override
-    protected List<LatLng[]> doInBackground(String... strings) {
+    protected List<LatLng> doInBackground(String... strings) {
         return getRoutes(strings[0]);
     }
 
 
-    private List<LatLng[]> getRoutes(String requestURL) {
+    private List<LatLng> getRoutes(String requestURL) {
         try {
             StringBuilder result = new StringBuilder();
             URL url = new URL(requestURL);
@@ -58,17 +58,36 @@ public class WayPointRoute extends AsyncTask<String, Void, List<LatLng[]>> {
         return null;
     }
 
-    private List<LatLng[]> parseLegs(JSONObject jsonObject) {
-        List<LatLng[]> result = new ArrayList<>();
+    private List<LatLng> parseLegs(JSONObject jsonObject) {
+        List<LatLng> result = new ArrayList<>();
 
         JSONArray routes = (JSONArray) jsonObject.get("routes");
         JSONArray legs = (JSONArray) ((JSONObject) routes.get(0)).get("legs");
-        System.out.println("??");
         for (Object obj : legs) {
             JSONObject leg = (JSONObject) obj;
             LatLng startLocation = parseLatLng(leg, "start_location");
+            result.add(startLocation);
+
+            List<LatLng> middlePoints = parseMiddlePoints(leg, "steps");
+            result.addAll(middlePoints);
+
             LatLng endLocation = parseLatLng(leg, "end_location");
-            result.add(new LatLng[]{startLocation, endLocation});
+            result.add(endLocation);
+        }
+        return result;
+    }
+
+    private List<LatLng> parseMiddlePoints(JSONObject leg, String key) {
+        List<LatLng> result = new ArrayList<>();
+        JSONArray steps = (JSONArray) leg.get(key);
+        for (Object obj : steps) {
+            JSONObject step = (JSONObject) obj;
+
+            LatLng startLocation = parseLatLng(step, "start_location");
+            result.add(startLocation);
+
+            LatLng endLocation = parseLatLng(step, "end_location");
+            result.add(endLocation);
         }
         return result;
     }

@@ -56,6 +56,18 @@
                 android:onClick="navigateToTarget"
                 android:text="@string/navigate_bin"
                 android:visibility="gone" />
+
+            <Button
+                android:id="@+id/quitDirectionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="60dp"
+                android:onClick="quitNavigation"
+                android:text="@string/quit_direction"
+                android:visibility="gone" />
         </RelativeLayout>
 
         <android.support.v7.widget.Toolbar

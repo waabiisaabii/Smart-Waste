@@ -3,4 +3,6 @@
     <string name="title_activity_maps">Map</string>
     <string name="report_damage">Report Damage</string>
     <string name="navigate_bin">Collect All</string>
+    <string name="quit_direction">Back</string>
+
 </resources>
