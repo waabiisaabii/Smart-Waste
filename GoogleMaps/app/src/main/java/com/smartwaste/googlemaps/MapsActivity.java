@@ -66,6 +66,7 @@ public class MapsActivity extends AppCompatActivity implements
     private static final double oaklandLon = -79.9560714;
     private GoogleMap mMap;
     private Button damageReportButton;
+    private Button navigateButton;
     private Marker selectedMarker;
     private Map<String, BinStatus.Item> itemMap;
     private DrawerLayout mDrawerLayout;
@@ -160,6 +161,7 @@ public class MapsActivity extends AppCompatActivity implements
         }
 
         damageReportButton = findViewById(R.id.damageReportButton);
+        navigateButton = findViewById(R.id.directionButton);
 
         // disable redirection to external Google Map App
         mMap.getUiSettings().setMapToolbarEnabled(false);
@@ -176,7 +178,7 @@ public class MapsActivity extends AppCompatActivity implements
                     locationCompass.getLayoutParams();
             // position on right bottom
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-            layoutParams.setMargins(0, 1500,30, 0);
+            layoutParams.setMargins(0, 1500, 30, 0);
 
             View locationButton = ((View) findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
             // and next place it, on bottom right (as Google Maps app)
@@ -184,8 +186,10 @@ public class MapsActivity extends AppCompatActivity implements
                     locationButton.getLayoutParams();
             // position on right bottom
             layoutParams2.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-            layoutParams2.setMargins(0, 1500,500, 0);
+            layoutParams2.setMargins(0, 1500, 500, 0);
         }
+
+        navigateButton.setVisibility(View.VISIBLE);
     }
 
     @SuppressLint("MissingPermission")
@@ -231,18 +235,15 @@ public class MapsActivity extends AppCompatActivity implements
             for (BinStatus.Item item : items) {
                 itemMap.put(item.toString(), item);
                 LatLng coord = new LatLng(item.getLat(), item.getLon());
-                System.out.println(coord);
                 int binColor = item.getBinStatus() == 0 ? R.drawable.greenl : R.drawable.redl;
                 Marker newMarker = mMap.addMarker(new MarkerOptions()
                         .position(coord)
                         .icon(BitmapDescriptorFactory.fromResource(binColor)));
 
                 newMarker.setTag(item.toString());
-
                 markers.add(newMarker);
-
-//                mMap.moveCamera(CameraUpdateFactory.newLatLng(coord));
             }
+            System.out.println(items.size() + " bins loaded.");
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -268,6 +269,7 @@ public class MapsActivity extends AppCompatActivity implements
         System.out.println("> ###### marker clicked" + marker.getTag());
 
         damageReportButton.setVisibility(View.VISIBLE);
+
         return false;
     }
 
@@ -282,6 +284,10 @@ public class MapsActivity extends AppCompatActivity implements
 
         intent.putExtra(LAT_LON, itemMap.get(itemKey));
         startActivityForResult(intent, RESULT_FIRST_USER);
+    }
+
+    public void navigateToTarget(View view) {
+
     }
 
     @Override

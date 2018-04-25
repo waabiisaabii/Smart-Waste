@@ -2,4 +2,5 @@
     <string name="app_name">Smart Waste</string>
     <string name="title_activity_maps">Map</string>
     <string name="report_damage">Report Damage</string>
+    <string name="navigate_bin">Collect All</string>
 </resources>
