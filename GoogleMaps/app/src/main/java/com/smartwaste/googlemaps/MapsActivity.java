@@ -4,7 +4,9 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -16,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
 
@@ -44,7 +47,9 @@ import java.util.concurrent.ExecutionException;
 public class MapsActivity extends AppCompatActivity implements
         OnMapReadyCallback,
         GoogleMap.OnMarkerClickListener,
-        GoogleMap.OnMapClickListener {
+        GoogleMap.OnMapClickListener,
+        GoogleMap.OnMyLocationClickListener,
+        GoogleMap.OnMyLocationButtonClickListener {
 
     public static final String serverURL = "https://peaceful-island-64716.herokuapp.com/iot/";
     public static final String serverActionGetBinStatus = serverURL + "returnJSON";
@@ -158,6 +163,29 @@ public class MapsActivity extends AppCompatActivity implements
 
         // disable redirection to external Google Map App
         mMap.getUiSettings().setMapToolbarEnabled(false);
+
+        mMap.setOnMyLocationButtonClickListener(this);
+        mMap.setOnMyLocationClickListener(this);
+
+        // move my location button to left bottom
+        if (findViewById(Integer.parseInt("1")) != null) {
+            // Get the view
+            View locationCompass = ((View) findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("5"));
+            // and next place it, on bottom right (as Google Maps app)
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)
+                    locationCompass.getLayoutParams();
+            // position on right bottom
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+            layoutParams.setMargins(0, 1500,30, 0);
+
+            View locationButton = ((View) findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
+            // and next place it, on bottom right (as Google Maps app)
+            RelativeLayout.LayoutParams layoutParams2 = (RelativeLayout.LayoutParams)
+                    locationButton.getLayoutParams();
+            // position on right bottom
+            layoutParams2.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+            layoutParams2.setMargins(0, 1500,500, 0);
+        }
     }
 
     @SuppressLint("MissingPermission")
@@ -237,7 +265,7 @@ public class MapsActivity extends AppCompatActivity implements
         selectedMarker = marker;
         Toast.makeText(this, (CharSequence) marker.getTag(), Toast.LENGTH_SHORT).show();
 
-        System.out.println("> ######marker clicked" + marker.getTag());
+        System.out.println("> ###### marker clicked" + marker.getTag());
 
         damageReportButton.setVisibility(View.VISIBLE);
         return false;
@@ -321,5 +349,18 @@ public class MapsActivity extends AppCompatActivity implements
                 .build();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 1000, null);
         mDrawerLayout.closeDrawers();
+    }
+
+    @Override
+    public boolean onMyLocationButtonClick() {
+//        Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show();
+        // Return false so that we don't consume the event and the default behavior still occurs
+        // (the camera animates to the user's current position).
+        return false;
+    }
+
+    @Override
+    public void onMyLocationClick(@NonNull Location location) {
+        Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG).show();
     }
 }
