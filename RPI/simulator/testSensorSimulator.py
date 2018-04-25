@@ -16,7 +16,7 @@ with open('coordinates.csv', 'rb') as csvfile:
 	spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
 	for row in spamreader:
 		locations.append(row[0] + row[1])
-fullness = np.random.choice([0, 1], size=(len(locations),), p=[1./2, 1./2])
+
 
 INFRARED_SENSOR_PIN = 3
 ACTIVATE_REQUEST = 23
@@ -49,6 +49,7 @@ def sendAndDisplayData(green, red, status,
 
 while True:
 	print '####################### next round #################'
+	fullness = np.random.choice([0, 1], size=(len(locations),), p=[1./2, 1./2])
 	for j in range(len(locations)):
 		location = locations[j]
 		i = fullness[j]

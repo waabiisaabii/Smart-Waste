@@ -1,6 +1,7 @@
 package com.smartwaste.googlemaps;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
@@ -26,6 +27,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.data.kml.KmlLayer;
 
 import java.net.MalformedURLException;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,6 +84,16 @@ public class MapsActivity extends AppCompatActivity implements
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
         mDrawerLayout = findViewById(R.id.drawer_layout);
+
+        final Handler handler =new Handler();
+        final Runnable r = new Runnable() {
+            public void run() {
+                //5 seconds
+                handler.postDelayed(this, 5000);
+                displayTrashBins(serverActionGetBinStatus);
+            }
+        };
+        handler.postDelayed(r, 0000);
     }
 
     @Override
@@ -107,13 +119,6 @@ public class MapsActivity extends AppCompatActivity implements
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add kml layer to the map
-        createKMLLayer();
-
-        // Display trash bins
-        itemMap = new HashMap<>();
-        displayTrashBins(serverActionGetBinStatus);
-
         mMap.setOnMarkerClickListener(this);
         mMap.setOnMapClickListener(this);
 
@@ -123,7 +128,11 @@ public class MapsActivity extends AppCompatActivity implements
 
     private void displayTrashBins(String url) {
         try {
+            mMap.clear();
+            // Add kml layer to the map
+            createKMLLayer();
 
+            itemMap = new HashMap<>();
             List<BinStatus.Item> items = new BinStatus(url).execute().get();
             for (BinStatus.Item item : items) {
                 itemMap.put(item.toString(), item);
@@ -134,7 +143,7 @@ public class MapsActivity extends AppCompatActivity implements
                         .position(coord)
                         .icon(BitmapDescriptorFactory.fromResource(binColor)));
                 newMarker.setTag(item.toString());
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(coord));
+//                mMap.moveCamera(CameraUpdateFactory.newLatLng(coord));
             }
 
         } catch (MalformedURLException e) {
