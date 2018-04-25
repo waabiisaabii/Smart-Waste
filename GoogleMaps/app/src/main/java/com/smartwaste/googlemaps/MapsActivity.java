@@ -18,6 +18,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -94,6 +95,8 @@ public class MapsActivity extends AppCompatActivity implements
             }
         };
         handler.postDelayed(r, 0000);
+
+
     }
 
     @Override
@@ -126,6 +129,8 @@ public class MapsActivity extends AppCompatActivity implements
 
         damageReportButton = findViewById(R.id.damageReportButton);
 
+        // disable redirection to external Google Map App
+        mMap.getUiSettings().setMapToolbarEnabled(false);
     }
 
     private List<Marker> markers;
