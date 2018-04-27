@@ -98,7 +98,6 @@ public class BinStatus extends AsyncTask<Void, Void, List<BinStatus.Item>> {
         private String lastPickUpTime;
         private double lat, lon;
         private String latLonStr;
-        private LatLng latLng;
 
         public Item(long binId, long binStatus, String geoLocationStr,
                     long requestUrgent, String lastPickUpTime) {
@@ -112,7 +111,7 @@ public class BinStatus extends AsyncTask<Void, Void, List<BinStatus.Item>> {
                 lat = coords[0];
                 lon = coords[1];
             }
-            latLng = new LatLng(lat, lon);
+
             this.requestUrgent = requestUrgent;
             this.lastPickUpTime = lastPickUpTime;
             latLonStr = lat + ", " + lon;
@@ -134,7 +133,7 @@ public class BinStatus extends AsyncTask<Void, Void, List<BinStatus.Item>> {
          * @return Getter for latLon {@link LatLng}
          */
         public LatLng getLatLng() {
-            return latLng;
+            return new LatLng(lat, lon);
         }
 
         public String getLatLonStr() {
