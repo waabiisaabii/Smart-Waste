@@ -52,5 +52,33 @@
 
 
 ### Getting all damage reports
-    - [https://peaceful-island-64716.herokuapp.com/iot/getAllDamageReports](https://peaceful-island-64716.herokuapp.com/iot/getAllDamageReports)
+- [https://peaceful-island-64716.herokuapp.com/iot/getAllDamageReports](https://peaceful-island-64716.herokuapp.com/iot/getAllDamageReports)
+
+- Sample response
+```json
+[
+	{
+		"model": "bins.damagereportmodel", 
+		"pk": 1, 
+		"fields": 
+		{
+			"binID": 5, 
+			"geoLocation": "40.451839, -79.928417", 
+			"description": "This is a sample damage report description.", 
+			"status": 0
+		}
+	}, 
+	{
+		"model": "bins.damagereportmodel", 
+		"pk": 2, 
+		"fields": 
+		{
+			"binID": 2, 
+			"geoLocation": "40.441432, -79.955414", 
+			"description": "It's broken.", 
+			"status": 0
+		}
+	}
+]
+```
     
