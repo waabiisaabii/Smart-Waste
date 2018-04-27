@@ -68,21 +68,39 @@ class BinStatusForm(forms.Form):
 
 
 class ReportDamageForm(forms.Form):
-    binID = forms.IntegerField(required=True)
-    geoLocation = forms.CharField(max_length=100,
-                                  label="geoLocation",
-                                  required=True)
-    description = forms.CharField(max_length=400,
-                                  label="description",
-                                  required=True)
+    binID = forms.IntegerField()
+    geoLocation = forms.CharField(max_length=100)
+    description = forms.CharField(max_length=400)
     def clean(self):
         cleaned_data = super(ReportDamageForm, self).clean()
+        print 'cleaning', cleaned_data
         return cleaned_data
 
+    def clean_binID(self):
+        try:
+            print 'cleaning binID'
+            binID = self.cleaned_data['binID']
+            return binID
+        except KeyError:
+            raise ValidationError('The binID field was blank.')
+        
+
+    def clean_description(self):
+        try:
+            print 'cleaning description'
+            description = self.cleaned_data['description']
+            return description
+        except KeyError:
+            raise ValidationError('The description field was blank.')
+
     def clean_geoLocation(self):
-        pattern = r"^(\-?\d+(\.\d+)?),\s*(\-?\d+(\.\d+)?)$"
-        sequence = self.cleaned_data['geoLocation']
-        if re.match(pattern, sequence):
-            return sequence
-        else:
-            raise forms.ValidationError('Invalid geographic location.')
+        try:
+            print 'cleaning geoLocation'
+            description = self.cleaned_data['geoLocation']
+            pattern = r"^(\-?\d+(\.\d+)?),\s*(\-?\d+(\.\d+)?)$"
+            if re.match(pattern, description):
+                return description
+            else:
+                raise forms.ValidationError('Invalid geographic location.')
+        except KeyError:
+            raise ValidationError('The description field was blank.')

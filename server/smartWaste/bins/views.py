@@ -25,11 +25,11 @@ def getSensorInfo(request):
         return HttpResponse('#### Invalid data', content_type='text/plain')
 
 
-    # geoLocation = requests.POST.get('geo')
-    # binStatus = requests.POST.get('status')
-    # pk = requests.POST.get('pk')
-    # requestUrgent = requests.POST.get('request')
-    # lastPickUpTime = requests.POST.get('lastPickUpTime')
+    # geoLocation = request.POST.get('geo')
+    # binStatus = request.POST.get('status')
+    # pk = request.POST.get('pk')
+    # requestUrgent = request.POST.get('request')
+    # lastPickUpTime = request.POST.get('lastPickUpTime')
 
     geoLocation = form.cleaned_data.get('geo')
     binStatus = form.cleaned_data.get('status')
@@ -52,14 +52,15 @@ def sendBackToPhone(request):
     response_text = serializers.serialize("json", allBins)
     return HttpResponse(response_text, content_type="application/json")
 
+@csrf_exempt
 def getDamageReportItem(request):
     if (request.method != 'POST'):
-        raise Http404
+        return HttpResponse('Not a POST method', content_type='text/plain')
 
-    form = ReportDamageForm(data=requests.POST)
+    form = ReportDamageForm(data=request.POST)
 
     if not form.is_valid():
-        raise Http404
+        return HttpResponse('#### Invalid data', content_type='text/plain')
 
     geoLocation = form.cleaned_data.get('geoLocation')
     description = form.cleaned_data.get('description')
