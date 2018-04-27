@@ -1,6 +1,6 @@
 # Smart-Waste
 ## Usage:
-+ Sending data from bin to server ~~(using `HTTP GET` request):~~ (using `HTTP POST` request)
+### Sending data from bin to server ~~(using `HTTP GET` request):~~ (using `HTTP POST` request)
     + ~~[https://peaceful-island-64716.herokuapp.com/iot/sensor?geo=test&status=1&pk=2](https://peaceful-island-64716.herokuapp.com/iot/sensor?geo=test&status=1&pk=2)~~
     
     +[https://peaceful-island-64716.herokuapp.com/iot/sensor](https://peaceful-island-64716.herokuapp.com/iot/sensor)
@@ -10,7 +10,7 @@
         + `status` stores as an integer.
             * `1`: full
             * `0`: empty
-* Retrieving data from server (using `HTTP GET` request):
+### Retrieving data from server (using `HTTP GET` request):
     - [https://peaceful-island-64716.herokuapp.com/iot/returnJSON](https://peaceful-island-64716.herokuapp.com/iot/returnJSON)
         + this URL returns a `JSON` format data containing information of all trash bins.
         * Example:
@@ -42,6 +42,15 @@
 - `lastPickUpTime`:
     + time in the format: `11:09PM on March 25, 2018`
     + default: `None`
+### Sending a damage report (using `HTTP POST` request)
++ [https://peaceful-island-64716.herokuapp.com/iot/reportDamage](https://peaceful-island-64716.herokuapp.com/iot/reportDamage)
++ params:
+    + `geoLocation` stores as a string representing the geographic location of bin#`pk`.
+        + format: `(\-?\d+(\.\d+)?),\s*(\-?\d+(\.\d+)?)`
+    + `description`: a short description for the damage
+    + `binID`: an integer representing the ID of the bin.
 
-* Get all damage reports
+
+### Getting all damage reports
     - [https://peaceful-island-64716.herokuapp.com/iot/getAllDamageReports](https://peaceful-island-64716.herokuapp.com/iot/getAllDamageReports)
+    
