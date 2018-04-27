@@ -7,25 +7,30 @@ import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
-import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-import android.support.v7.widget.Toolbar;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -35,6 +40,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.maps.android.data.kml.KmlLayer;
 
 import java.net.MalformedURLException;
@@ -95,6 +101,7 @@ public class MapsActivity extends AppCompatActivity implements
     private Button quitDirectionButton;
     private LatLng myLocation;
     private Polyline polyline;
+    private FusedLocationProviderClient mFusedLocationClient;
 
     /**
      * Getter for map.
@@ -117,6 +124,7 @@ public class MapsActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MapsInitializer.initialize(getApplicationContext());
         apiKey = getResources().getString(R.string.google_maps_key_waypoints);
         markers = new ArrayList<>();
         setContentView(R.layout.activity_maps);
@@ -306,14 +314,23 @@ public class MapsActivity extends AppCompatActivity implements
         System.out.println(selectedMarker.getTag());
 
         Intent intent = new Intent(this, ReportDamageActivity.class);
+        if (selectedMarker.getTag() == null) {
+            Snackbar.make(findViewById(R.id.slidingLayout),
+                    "You need to select a bin first",
+                    Snackbar.LENGTH_LONG)
+                    .show();
+            return;
+        }
         String itemKey = selectedMarker.getTag().toString();
 
         intent.putExtra(LAT_LON, itemMap.get(itemKey));
         startActivityForResult(intent, RESULT_FIRST_USER);
     }
 
+    @SuppressLint("MissingPermission")
+    @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
     public void navigateToTarget(View view) {
-        List<LatLng> fullBinsLatLon = new ArrayList<>();
+        final List<LatLng> fullBinsLatLon = new ArrayList<>();
         for (BinStatus.Item bin : items) {
             if (bin.isFull()) {
                 fullBinsLatLon.add(bin.getLatLng());
@@ -322,39 +339,43 @@ public class MapsActivity extends AppCompatActivity implements
         System.out.print(fullBinsLatLon.size() + " bins need to be collected. ");
 
         // Get my location
-        // https://stackoverflow.com/questions/13756261/how-to-get-the-current-location-in-google-maps-android-api-v2
-        LocationManager service = (LocationManager) getSystemService(LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
-        String provider = service.getBestProvider(criteria, false);
-        @SuppressLint("MissingPermission") Location location = service.getLastKnownLocation(provider);
-        myLocation = new LatLng(location.getLatitude(), location.getLongitude());
-        String encodedMyLocationStr = encodeLocationString(myLocation.toString());
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        mFusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            // Logic to handle location object
+                            myLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                            String encodedMyLocationStr = encodeLocationString(myLocation.toString());
 
-        if (fullBinsLatLon == null || fullBinsLatLon.size() == 0) {
-            System.out.println("No bins detected");
-            return;
-        }
-        String[] binsLocationStrConcat = concatenateBinLocations(fullBinsLatLon);
+                            if (fullBinsLatLon.size() == 0) {
+                                System.out.println("No bins detected");
+                                return;
+                            }
+                            String[] binsLocationStrConcat = concatenateBinLocations(fullBinsLatLon);
 
-        String requestURL = String.format(WAY_POINTS_URL,
-                encodedMyLocationStr,
-                binsLocationStrConcat[1],
-                binsLocationStrConcat[0],
-                apiKey);
+                            String requestURL = String.format(WAY_POINTS_URL,
+                                    encodedMyLocationStr,
+                                    binsLocationStrConcat[1],
+                                    binsLocationStrConcat[0],
+                                    apiKey);
 
-        System.out.println(requestURL);
-        try {
-            List<LatLng> routePoints = new WayPointRoute().execute(requestURL).get();
+                            System.out.println(requestURL);
+                            try {
+                                List<LatLng> routePoints = new WayPointRoute().execute(requestURL).get();
 
-            drawPolyLine(routePoints);
-            System.out.println("Finish drawing lines");
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-
-
+                                drawPolyLine(routePoints);
+                                System.out.println("Finish drawing lines");
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                });
     }
 
     public void quitNavigation(View view) {
@@ -384,6 +405,7 @@ public class MapsActivity extends AppCompatActivity implements
                 .zoom(ZOOM_LEVEL + 2)
                 .build();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 1000, null);
+        damageReportButton.setVisibility(View.GONE);
 
     }
 
@@ -435,7 +457,7 @@ public class MapsActivity extends AppCompatActivity implements
         System.out.println("shady!");
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(new LatLng(shadyLat, shadyLon))
-                .zoom(ZOOM_LEVEL)
+                .zoom(ZOOM_LEVEL + 1)
                 .build();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 1000, null);
         mDrawerLayout.closeDrawers();
@@ -445,7 +467,7 @@ public class MapsActivity extends AppCompatActivity implements
         System.out.println("hill1!");
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(new LatLng(hill1Lat, hill1Lon))
-                .zoom(ZOOM_LEVEL)
+                .zoom(ZOOM_LEVEL + 1)
                 .build();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 1000, null);
         mDrawerLayout.closeDrawers();
@@ -455,7 +477,7 @@ public class MapsActivity extends AppCompatActivity implements
         System.out.println("hill2");
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(new LatLng(hill2Lat, hill2Lon))
-                .zoom(ZOOM_LEVEL)
+                .zoom(ZOOM_LEVEL + 1)
                 .build();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 1000, null);
         mDrawerLayout.closeDrawers();
@@ -465,7 +487,7 @@ public class MapsActivity extends AppCompatActivity implements
         System.out.println("oakland");
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(new LatLng(oaklandLat, oaklandLon))
-                .zoom(ZOOM_LEVEL)
+                .zoom(ZOOM_LEVEL + 1)
                 .build();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 1000, null);
         mDrawerLayout.closeDrawers();
