@@ -43,7 +43,11 @@
                 android:layout_marginTop="60dp"
                 android:onClick="damageReport"
                 android:text="@string/report_damage"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:textColor="@drawable/button_text_color"
+                android:background="@drawable/button"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"/>
 
             <Button
                 android:id="@+id/directionButton"
@@ -55,7 +59,11 @@
                 android:layout_marginTop="60dp"
                 android:onClick="navigateToTarget"
                 android:text="@string/navigate_bin"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:textColor="@drawable/button_text_color"
+                android:background="@drawable/button"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"/>
 
             <Button
                 android:id="@+id/quitDirectionButton"
@@ -67,7 +75,11 @@
                 android:layout_marginTop="60dp"
                 android:onClick="quitNavigation"
                 android:text="@string/quit_direction"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:textColor="@drawable/button_text_color"
+                android:background="@drawable/button"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"/>
         </RelativeLayout>
 
         <android.support.v7.widget.Toolbar
