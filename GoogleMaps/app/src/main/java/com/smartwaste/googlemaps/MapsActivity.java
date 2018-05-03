@@ -73,6 +73,7 @@ public class MapsActivity extends AppCompatActivity implements
     private static final double hill2Lon = -79.9320408;
     private static final double oaklandLat = 40.4455836;
     private static final double oaklandLon = -79.9560714;
+    private static final int UPDATE_INTERVAL_MILLIS = 60000;
     /**
      * Example:
      * https://maps.googleapis.com/maps/api/directions/json?
@@ -144,7 +145,7 @@ public class MapsActivity extends AppCompatActivity implements
         final Runnable r = new Runnable() {
             public void run() {
                 //5 seconds
-                handler.postDelayed(this, 5000);
+                handler.postDelayed(this, UPDATE_INTERVAL_MILLIS);
                 displayTrashBins(serverActionGetBinStatus);
             }
         };
