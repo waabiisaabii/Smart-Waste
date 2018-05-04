@@ -11,9 +11,9 @@
 	* `1`: full
 	* `0`: empty
 ### Retrieving data from server (using `HTTP GET` request):
-    - [https://peaceful-island-64716.herokuapp.com/iot/returnJSON](https://peaceful-island-64716.herokuapp.com/iot/returnJSON)
-        + this URL returns a `JSON` format data containing information of all trash bins.
-        * Example:
+- [https://peaceful-island-64716.herokuapp.com/iot/returnJSON](https://peaceful-island-64716.herokuapp.com/iot/returnJSON)
+	+ this URL returns a `JSON` format data containing information of all trash bins.
+	* Example:
 ```json
 [
     {
